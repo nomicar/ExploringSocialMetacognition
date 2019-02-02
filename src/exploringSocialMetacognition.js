@@ -847,6 +847,8 @@ class Trial {
         this.advisorId = typeof args.advisorId === 'undefined'? null : args.advisorId;
         this.advisor0id = typeof args.advisor0id === 'undefined'? null : args.advisor0id;
         this.advisor1id = typeof args.advisor1id === 'undefined'? null : args.advisor1id;
+        this.advisorAbove = typeof args.advisorAbove === 'undefined'? null : args.advisorAbove;
+        this.resawStimulus = typeof args.resawStimulus === 'undefined'? null : args.resawStimulus;
         this.defaultAdvisor = typeof args.defaultAdvisor === 'undefined'? null : args.defaultAdvisor;
         this.choice = typeof args.choice === 'undefined'? null : args.choice;
         this.answer = typeof args.answer  === 'undefined'? null : args.answer ;

@@ -107,6 +107,8 @@ function flattenTrialData(trial, id) {
     }
 
     out.advisorId = trial.advisorId;
+    out.advisorAbove = trial.advisorAbove;
+    out.resawStimulus = trial.resawStimulus;
     out.advisorAgrees = trial.advisorAgrees;
     if (trial.advice !== null) {
         out.adviceSide = trial.advice.side;

@@ -18,7 +18,8 @@ const trialTypes = {
     force: 1,   // forced to use a specific advisor
     choice: 2,  // choice of advisors
     dual: 3,    // see advice from two advisors
-    change: 4   // see advice from a specific advisor with an option to see the other instead
+    change: 4,  // see advice from a specific advisor with an option to see the other instead
+    infoChoice: 5 // choice of advisor or stimulus again
 };
 
 /**
@@ -30,7 +31,8 @@ const trialTypeNames = {
     [trialTypes.force]: 'force',
     [trialTypes.choice]: 'choice',
     [trialTypes.dual]: 'dual',
-    [trialTypes.change]: 'change'
+    [trialTypes.change]: 'change',
+    [trialTypes.infoChoice]: 'infoChoice'
 };
 
 /**
@@ -1076,7 +1078,9 @@ class AdvisorChoice extends DotTask {
         let advisorSets = this.advisorLists.length;
         let blockCount = this.blockStructure.length * advisorSets;
         let practiceBlockCount = this.practiceBlockStructure.length;
-        // Same for which side the correct answer appears on
+        // determine where advisor option appears for each block
+        let advisorAbove = utils.shuffleShoe([1, 0], (blockCount+practiceBlockCount)/2);
+        // determine which side the correct answer appears on
         let whichSideDeck = utils.shuffleShoe([0, 1], advisorSets*utils.sumList(this.blockStructure));
         // Define trials
         for (let b=0; b<practiceBlockCount+blockCount; b++) {
@@ -1138,6 +1142,7 @@ class AdvisorChoice extends DotTask {
                     advisor0id,
                     advisor1id,
                     choice,
+                    advisorAbove: advisorAbove[b],
                     changes,
                     answer: [NaN, NaN],
                     confidence: [NaN, NaN],
@@ -1286,6 +1291,63 @@ class AdvisorChoice extends DotTask {
                 p.className = 'advisorChoice-choice';
             }
         }
+    }
+    /**
+     * Information choice function called by the jspsych-jas-present-advice-choice plugin.
+     * Offer a choice of information (advice or stimulus) by drawing clickable portraits.
+     *
+     * @param {HTMLElement} display_element - element within which to display the choices
+     * @param {function} callback - function to call when a portrait is clicked. Called with the choice as an argument.
+     */
+    getInformationChoice(display_element, callback) {
+        let choices = this.currentTrial.advisorId;
+        if(this.currentTrial.type !== trialTypes.infoChoice) {
+            callback(-1); // wrong trial type
+            return;
+        }
+
+        // present choices - advisor
+        let choices = [];
+        let self = this;
+        let advisor = this.currentAdvisor;
+        let advisorDiv = advisor.draw(document.body);
+        advisorDiv.classList.add('advisorChoice-choice');
+        let img = advisorDiv.querySelector('img');
+        img.classList.add('advisorChoice-choice', 'advisor-portrait');
+        img.id = 'advisorChoice-choice';
+        img.src = advisor.portrait.src;
+        advisorDiv.addEventListener('click', function () {
+            self.currentTrial.resawStimulus = false;
+            callback(advisor.id);
+        });
+        choices.push(advisorDiv);
+
+        // present choices - stimulus
+        let stimDiv = document.createElement("div");
+        stimDiv.classList.add('stimChoice-choice');
+        let stimImg = stimDiv.createElement('img');
+        stimImg.classList.add('advisorChoice-choice');
+        stimImg.id = 'stimChoice';
+        stimImg.src = "assets/image/stim.jpeg";
+        advisorDiv.addEventListener('click', function () {
+            self.currentTrial.resawStimulus = true;
+            callback(false);
+        });
+
+        choices.push(stimDiv);
+
+        // check if advisor option is above or below and display options accordingly
+        if(this.currentTrial.advisorAbove === false)
+            choices = [choices[1], choices[0]];
+
+        // choices.splice(1, 0, display_element.appendChild(document.createElement('p')));
+        // choices[1].innerText = 'Click on a portrait to hear the advisor\'s advice';
+        // choices[1].className = 'advisorChoice-choice';
+
+        choices.forEach((div)=>{
+           display_element.appendChild(div);
+        });
+
     }
 
     /**
