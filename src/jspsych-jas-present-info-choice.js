@@ -101,27 +101,42 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
             else
                 response.choiceTime = performance.now() - start_time;
 
+            let html = '';
+            let containerId = '';
+            let classList = '';
 
-            // display advisor
-            let containerId = "jspsych-jas-present-info-choice-image0";
-            let classList = "jspsych-jas-present-info-choice-image";
-            let html = '<div id="'+containerId+'" class="'+classList+'"></div>';
+            //Check if the user chose to view advice
+            if(response.choice > 0 ) {
 
-            //show prompt if there is one
-            html += '<div id="jspsych-jas-present-info-choice-prompt0" ' +
-                'class="jspsych-jas-present-info-choice-prompt">'+trial.prompt+'</div>';
+                // display advisor
+                containerId = "jspsych-jas-present-advice-choice-image0";
+                classList = "jspsych-jas-present-advice-choice-image";
+                html = '<div id="' + containerId + '" class="' + classList + '"></div>';
 
-            display_element.innerHTML = html;
+                //show prompt if there is one
+                html += '<div id="jspsych-jas-present-info-choice-prompt0" ' +
+                    'class="jspsych-jas-present-info-choice-prompt">'+trial.prompt+'</div>';
 
-            response.image = trial.displayImageFunction(response.choice, containerId);
-            // short out if the trial.displayImageFunction returned '-1'
-            if (response.image === -1) {
-                end_trial();
-                return;
+                display_element.innerHTML = html;
+
+                response.image = trial.displayImageFunction(response.choice, containerId);
+                // short out if the trial.displayImageFunction returned '-1'
+                if (response.image === -1) {
+                    end_trial();
+                    return;
+                }
+
+                // check if user chose to review stimulus
+            } else if (response.choice === false) {
+
+                // display stimulus again
+
+                let canvasId = 'jspsych-canvas-sliders-response-canvas';
+                let canvas = '<canvas id="'+ canvasId+'" height="192" width="484"></canvas>';
+                display_element.innerHTML = canvas;
+                window.gov.drawDots(canvasId);
             }
 
-            if (typeof trial.playAudioFunction === "function")
-                response.audio = trial.playAudioFunction(response.choice);
 
             // end trial if time limit is set
             if (trial.trial_duration !== null) {
