@@ -1127,6 +1127,9 @@ class AdvisorChoice extends DotTask {
                     advisorId = trialType===trialTypes.catch? 0 : this.practiceAdvisor.id;
                 else
                     advisorId = trialType === trialTypes.force? advisorForceDeck.pop().id : 0;
+                // Nomi: for now set advisorid to advisor0id
+                if (trialType === trialTypes.infoChoice)
+                    advisorId = advisor0id;
                 let defaultAdvisor = trialType === trialTypes.change? advisorChangeDeck.pop().id : null;
                 let changes = trialType === trialTypes.change? 0 : null;
                 let r = Math.random() < .5? 1 : 0;
@@ -1206,13 +1209,15 @@ class AdvisorChoice extends DotTask {
      * Show advice over the stimulus presentation area
      */
     showAdvice(){
+
         // Hack an advisor display in here with a directional indicator
         let div = document.querySelector('canvas').parentElement;
         div.innerHTML = "";
         if(this.currentTrial.type === trialTypes.dual) {
             for(let i = 0; i < 2; i++)
                 this.drawAdvice(div, this.currentTrial['advisor' + i.toString() + 'id']);
-        } else if(typeof this.currentAdvisor !== 'undefined') {
+        // Check if advisor is defined and advice was chosen
+        } else if(typeof this.currentAdvisor !== 'undefined' && this.currentTrial.resawStimulus === false) {
             this.drawAdvice(div, this.currentAdvisor.id);
         }
         // Set the class of the slider the advisor endorsed
@@ -1299,8 +1304,7 @@ class AdvisorChoice extends DotTask {
      * @param {HTMLElement} display_element - element within which to display the choices
      * @param {function} callback - function to call when a portrait is clicked. Called with the choice as an argument.
      */
-    getInformationChoice(display_element, callback) {
-        let choices = this.currentTrial.advisorId;
+    getInfoChoice(display_element, callback) {
         if(this.currentTrial.type !== trialTypes.infoChoice) {
             callback(-1); // wrong trial type
             return;
@@ -1323,13 +1327,13 @@ class AdvisorChoice extends DotTask {
         choices.push(advisorDiv);
 
         // present choices - stimulus
-        let stimDiv = document.createElement("div");
+        let stimDiv = document.createElement('div');
         stimDiv.classList.add('stimChoice-choice');
-        let stimImg = stimDiv.createElement('img');
+        let stimImg = stimDiv.appendChild(document.createElement('img'));
         stimImg.classList.add('advisorChoice-choice');
         stimImg.id = 'stimChoice';
-        stimImg.src = "assets/image/stim.jpeg";
-        advisorDiv.addEventListener('click', function () {
+        stimImg.src = "assets/image/stim.jpg";
+        stimDiv.addEventListener('click', function () {
             self.currentTrial.resawStimulus = true;
             callback(false);
         });

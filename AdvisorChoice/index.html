@@ -30,6 +30,7 @@
     <script src="../src/bowser.min.js"></script>
     <script src="../src/jspsych-function-sliders-response.js"></script>
     <script src="../src/jspsych-jas-present-advice-choice.js"></script>
+    <script src="../src/jspsych-jas-present-info-choice.js"></script>
     <script src="../src/jspsych-canvas-sliders-response.js"></script>
 
     <link rel="stylesheet" href="../style/advisorChoice.css"/>
@@ -50,7 +51,7 @@
     import {DoubleDotGrid, Advisor, Cue, utils} from '../src/exploringSocialMetacognition.js';
     import {AdvisorChoice, trialTypes} from "../src/advisorChoiceDefs.js";
 
-    let advisorClass = Math.random() < .5? "Advisor" : "Cue";
+    let advisorClass = "Advisor";
 
     /* Advice types:
         0   = balanced
@@ -153,10 +154,7 @@
         blockCount: 2,
         blockStructure: [
             {
-                [trialTypes.dual]: 6
-            },
-            {
-                [trialTypes.change]: 6
+                [trialTypes.infoChoice]: 6
             }
         ],
         practiceBlockStructure: [
@@ -173,8 +171,7 @@
                 [trialTypes.change]: 1
             },
             {
-                [trialTypes.dual]: 3,
-                [trialTypes.change]: 3
+                [trialTypes.infoChoice]: 3
             }
         ],
         preTrialInterval: 200,
@@ -467,6 +464,38 @@
         }
     };
 
+    /* Present information according to judges choice  */
+    const adviceOrStim = {
+        type: "jspsych-jas-present-info-choice",
+        choiceFunction: (display_element, callback)=>gov.getInfoChoice(display_element, callback),
+        displayImageFunction: function(choice, divId) {
+            let div = document.querySelector('#' + divId);
+            if(gov.currentTrial.type === trialTypes.dual) {
+                for(let i = 0; i < 2; i++)
+                    gov.drawAdvice(div, gov.currentTrial['advisor' + i.toString() + 'id']);
+                return null;
+            }
+            let a = gov.currentAdvisor;
+            if (typeof a === 'undefined' && choice > 0 && choice < gov.advisors.length)
+                a = gov.getAdvisorById(choice);
+            if(typeof a === 'undefined')
+                return -1; // special value which tells the present-advice plugin to end early
+            gov.drawAdvice(div, a.id);
+            return a.portrait.src;
+        },
+        trial_duration: 1000,
+        playAudioFunction: function () {
+            // let div = document.querySelector('#jspsych-jas-present-advice-choice-prompt0');
+            // div.innerHTML = gov.currentAdvisor.nameHTML + ': ' + gov.adviceString;
+            //gov.currentTrial.advice.play();
+        },
+        prompt: "",
+        on_load: ()=>gov.setContentHeight(),
+        on_finish: (pluginData)=>{
+            gov.storePluginData(pluginData);
+        }
+    };
+
     /* Final decision: repeat the initial decision phase to let the judge reconsider their response */
     const finalDecision = {
         type: "canvas-sliders-response",
@@ -688,23 +717,26 @@
         [trialTypes.force]: [initialDecision, advice, finalDecision, feedbackDisplay],
         [trialTypes.choice]: [initialDecision, advice, finalDecision, feedbackDisplay],
         [trialTypes.dual]: [initialDecision, advice, finalDecision, feedbackDisplay],
-        [trialTypes.change]: [initialDecision, advice, finalDecision, feedbackDisplay]
+        [trialTypes.change]: [initialDecision, advice, finalDecision, feedbackDisplay],
+        [trialTypes.infoChoice]: [initialDecision, adviceOrStim, finalDecision, feedbackDisplay]
     };
     const procedures = {
         [trialTypes.catch]: [initialDecision],
         [trialTypes.force]: [initialDecision, advice, finalDecision],
         [trialTypes.choice]: [initialDecision, advice, finalDecision],
         [trialTypes.dual]: [initialDecision, advice, finalDecision],
-        [trialTypes.change]: [initialDecision, advice, finalDecision]
+        [trialTypes.change]: [initialDecision, advice, finalDecision],
+        [trialTypes.infoChoice]: [initialDecision, adviceOrStim, finalDecision]
     };
 
     let trainingTrials = utils.getMatches(gov.trials, function(trial) {
         return trial.block < 2;
     });
 
-    gov.currentTrialIndex = 0
+    gov.currentTrialIndex = 0;
     // intro and training
     timeline.push(welcome);
+    //timeline.push({timeline: [initialDecision, adviceOrStim, finalDecision]})
     timeline.push({timeline: [introInitialDecision, feedbackDisplay]});
     trainingTrials.shift();
     timeline.push(sliderInstructions);
