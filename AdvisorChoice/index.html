@@ -60,38 +60,56 @@
         5|6 = acc
         7|8 = agg
     */
-    let adviceTypes = utils.shuffle([3,5,7]);
-    let advisorIdDeck = utils.shuffle(utils.getSequence(1,6));
+    let adviceTypes = 0;
+    let advisorIdDeck = utils.shuffle(utils.getSequence(1,7));
     let advisorVoiceDeck = utils.shuffle(utils.getSequence(1,10));
-    let advisorPicDeck = utils.shuffle(utils.getSequence(1,6));
+    let advisorPicDeck = utils.shuffle(utils.getSequence(1,7));
     let args = {skipAudioPreload: true};
     let practiceArgs = {skipAudioPreload: true, practice: true};
     // Each advisor in a pair has one of the two colour schemes (assigned randomly)
-    let styleClassDeck = utils.shuffle(utils.getSequence(1,6));
+    let styleClassDeck = utils.shuffle(utils.getSequence(1,7));
 
     let practiceAdvisor0;
     let practiceAdvisor1;
     let advisorListA;
     let advisorListB;
+    let advisorListC;
+    let advisorListD;
+    let advisorListE;
+    let advisorListF;
 
     if(advisorClass === "Advisor") {
         practiceAdvisor0 = new Advisor(advisorIdDeck[0], 0,
             advisorVoiceDeck[0], advisorPicDeck[0],
             styleClassDeck[0].toString(), practiceArgs);
+
         practiceAdvisor1 = new Advisor(advisorIdDeck[1], 0,
             advisorVoiceDeck[1], advisorPicDeck[1],
             styleClassDeck[1].toString(), practiceArgs);
+
         advisorListA = [
-            new Advisor(advisorIdDeck[2], adviceTypes[1], advisorVoiceDeck[2], advisorPicDeck[2],
-                styleClassDeck[2].toString(), args),
-            new Advisor(advisorIdDeck[3], adviceTypes[1]+1, advisorVoiceDeck[3], advisorPicDeck[3],
-                styleClassDeck[3].toString(), args)
+            new Advisor(advisorIdDeck[1], adviceTypes[1], advisorVoiceDeck[1], advisorPicDeck[1],
+                styleClassDeck[1].toString(), args)
         ];
         advisorListB = [
-            new Advisor(advisorIdDeck[4], adviceTypes[2], advisorVoiceDeck[4], advisorPicDeck[4],
-                styleClassDeck[4].toString(), args),
-            new Advisor(advisorIdDeck[5], adviceTypes[2]+1, advisorVoiceDeck[5], advisorPicDeck[5],
+            new Advisor(advisorIdDeck[2], adviceTypes[1], advisorVoiceDeck[2], advisorPicDeck[2],
+                styleClassDeck[2].toString(), args)
+        ];
+        advisorListC = [
+            new Advisor(advisorIdDeck[3], adviceTypes[1], advisorVoiceDeck[3], advisorPicDeck[3],
+                styleClassDeck[3].toString(), args)
+        ];
+        advisorListD = [
+            new Advisor(advisorIdDeck[4], adviceTypes[1], advisorVoiceDeck[4], advisorPicDeck[4],
+                styleClassDeck[4].toString(), args)
+        ];
+        advisorListE = [
+            new Advisor(advisorIdDeck[5], adviceTypes[1], advisorVoiceDeck[5], advisorPicDeck[5],
                 styleClassDeck[5].toString(), args)
+        ];
+        advisorListF = [
+            new Advisor(advisorIdDeck[6], adviceTypes[1], advisorVoiceDeck[6], advisorPicDeck[6],
+                styleClassDeck[6].toString(), args)
         ];
     } else { // "Cue"
         practiceAdvisor0 = new Cue(advisorIdDeck[0], 0,
@@ -114,10 +132,12 @@
         ];
     }
 
+    /**
     if (Math.random() < .5)
         advisorListA = [advisorListA[1], advisorListA[0]];
     if (Math.random() < .5)
         advisorListB = [advisorListB[1], advisorListB[0]];
+    */
 
     /**
      * The governor contains the properties which the experiment functions need to access from everywhere.
@@ -138,7 +158,11 @@
         minimumBlockScore: 0.10,
         advisorLists: [
             advisorListA,
-            advisorListB
+            advisorListB,
+            advisorListC,
+            advisorListD,
+            advisorListE,
+            advisorListF
         ],
         practiceAdvisors: [
             practiceAdvisor0,
@@ -146,12 +170,14 @@
         ],
         advisors: [
             advisorListA[0],
-            advisorListA[1],
             advisorListB[0],
-            advisorListB[1]
+            advisorListC[0],
+            advisorListD[0],
+            advisorListE[0],
+            advisorListF[0]
         ],
         contingentAdvisors: [[], [], []],
-        blockCount: 2,
+        blockCount: 6,
         blockStructure: [
             {
                 [trialTypes.infoChoice]: 6
@@ -165,23 +191,11 @@
                 [trialTypes.catch]: 3,//60,
             },
             {
-                [trialTypes.dual]: 1
-            },
-            {
-                [trialTypes.change]: 1
-            },
-            {
                 [trialTypes.infoChoice]: 3
             }
         ],
         preTrialInterval: 200,
         preStimulusInterval: 500,
-        questionnaireStack: [
-            advisorListB[0], advisorListB[1],
-            advisorListB[1], advisorListB[0],
-            advisorListA[0], advisorListA[1],
-            advisorListA[1], advisorListA[0]
-        ],
         stimulusDuration: 200,
         feedbackDuration: 200,
         completionURL: 'https://app.prolific.ac/submissions/complete?cc=MX5PC2Z4',
@@ -793,8 +807,8 @@
 
     // real experiment
     for (let a=0; a<gov.advisorLists.length; a++) {
-        timeline.push(questionnaireProspective);
-        timeline.push(questionnaireProspective);
+        //timeline.push(questionnaireProspective);
+        //timeline.push(questionnaireProspective);
 
         // real experiment
         for (let b=0; b<gov.blockStructure.length; b++) {
@@ -811,15 +825,15 @@
         // Remove the last break screen
         timeline.pop();
 
-        timeline.push(questionnaire);
-        timeline.push(questionnaire);
+        //timeline.push(questionnaire);
+        //timeline.push(questionnaire);
         timeline.push(blockBreak);
     }
 
     timeline.pop();
 
     // Trust questionnaire
-    timeline.push(genTrustQuestionnaire);
+    //timeline.push(genTrustQuestionnaire);
 
     /* start the experiment */
     // browser check

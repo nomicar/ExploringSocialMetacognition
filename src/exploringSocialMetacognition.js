@@ -484,8 +484,8 @@ class Advisor {
             this.portraitId = portrait;
             if (portrait === 0)
                 this.portraitId = this.id;
-            // this.portraitSrc = "assets/image/advisor" + this.portraitId + ".jpg";
-            this.portraitSrc = "assets/image/advisor_blank.png";
+            this.portraitSrc = "assets/image/advisor" + this.portraitId + ".jpg";
+            // this.portraitSrc = "assets/image/advisor_blank.png";
         } else {
             // Regenerate an old advisor for feedback
             args = id;
@@ -848,6 +848,7 @@ class Trial {
         this.advisor0id = typeof args.advisor0id === 'undefined'? null : args.advisor0id;
         this.advisor1id = typeof args.advisor1id === 'undefined'? null : args.advisor1id;
         this.advisorAbove = typeof args.advisorAbove === 'undefined'? null : args.advisorAbove;
+        this.trialDifficulty = typeof args.trialDifficulty === 'undefined'? null : args.trialDifficulty;
         this.resawStimulus = typeof args.resawStimulus === 'undefined'? null : args.resawStimulus;
         this.defaultAdvisor = typeof args.defaultAdvisor === 'undefined'? null : args.defaultAdvisor;
         this.choice = typeof args.choice === 'undefined'? null : args.choice;

@@ -1,6 +1,7 @@
 /**
  * Definitions for advisorChoice experiment.
  * Matt Jaquiery, Feb 2018
+ * Updated by Naomi Carlebach, Feb 2019
  */
 "use strict";
 
@@ -166,8 +167,26 @@ class DotTask extends Governor {
     drawDots(canvasId, recalculateGrid = false) {
         if(!(this.currentTrial.grid instanceof DoubleDotGrid) && !recalculateGrid) {
             this.currentTrial.dotDifference = this.dotDifference;
-            let low = this.dotCount - this.dotDifference;
-            let high = this.dotCount + this.dotDifference;
+            let low =[];
+            let high = [];
+
+            //set number of dots according to trial difficulty
+            switch (this.currentTrial.trialDifficulty){
+                case 1: //easy trials
+                    low = this.dotCount - this.dotDifference*3;
+                    high = this.dotCount + this.dotDifference*3;
+                    break;
+                case 2: //medium trials
+                    low = this.dotCount - this.dotDifference;
+                    high = this.dotCount + this.dotDifference;
+                    break;
+                case 3: //hard trials
+                    low = this.dotCount - this.dotDifference/3;
+                    high = this.dotCount + this.dotDifference/3;
+
+                    break;
+            }
+
             let dots = this.currentTrial.whichSide === 0 ? [high, low] : [low, high];
             this.currentTrial.grid = new DoubleDotGrid(dots[0], dots[1], {
                 gridWidth: 20,
@@ -1073,6 +1092,7 @@ class AdvisorChoice extends DotTask {
      */
     getTrials() {
         let trials = [];
+        let trialDifficulty = [];
         let id = 0;
         let realId = 0;
         let advisorSets = this.advisorLists.length;
@@ -1095,6 +1115,7 @@ class AdvisorChoice extends DotTask {
                 advisorSet = Math.floor((b-practiceBlockCount) / this.blockStructure.length);
                 blockStructure = this.blockStructure[(b-practiceBlockCount)%this.blockStructure.length];
                 advisorChoices = this.advisorLists[advisorSet];
+                trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([1,2,3], (utils.sumList(this.blockStructure)/3)));
             } else {
                 advisorSet = 0;
                 blockStructure = this.practiceBlockStructure[b];
@@ -1146,6 +1167,7 @@ class AdvisorChoice extends DotTask {
                     advisor1id,
                     choice,
                     advisorAbove: advisorAbove[b],
+                    trialDifficulty: isPractice ? 2 : trialDifficulty[realId],
                     changes,
                     answer: [NaN, NaN],
                     confidence: [NaN, NaN],
