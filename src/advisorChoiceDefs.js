@@ -1091,6 +1091,7 @@ class AdvisorChoice extends DotTask {
      * timeline tweaking. This may just be more work to duplicate jsPsych's capabilities, though
      */
     getTrials() {
+        //starts with feedback for now
         let trials = [];
         let trialDifficulty = [];
         let id = 0;
@@ -1100,7 +1101,19 @@ class AdvisorChoice extends DotTask {
         let practiceBlockCount = this.practiceBlockStructure.length;
         // determine where advisor option appears for each block
         let advisorAbove = utils.shuffleShoe([1, 0], (blockCount+practiceBlockCount)/2);
-        // determine which side the correct answer appears on
+
+        // determine if it's a feedback block
+        let feedbackFirst = Math.random() < .5? 1 : 0; //randomise feedback condition timing
+        let feedbackBlock = utils.shuffleShoe([1, 0], blockCount/2);
+        if (feedbackFirst === 1) { //start with feedback blocks
+            feedbackBlock.reverse();
+        } else { // start without feedback
+            feedbackBlock.sort();
+        }
+        // add feedback on practice blocks
+        feedbackBlock = (utils.shuffleShoe([1],practiceBlockCount)).concat(feedbackBlock);
+
+            // determine which side the correct answer appears on
         let whichSideDeck = utils.shuffleShoe([0, 1], advisorSets*utils.sumList(this.blockStructure));
         // Define trials
         for (let b=0; b<practiceBlockCount+blockCount; b++) {
@@ -1177,7 +1190,7 @@ class AdvisorChoice extends DotTask {
                     },
                     whichSide: isPractice? Math.round(Math.random()) : whichSideDeck[realId],
                     practice: isPractice,
-                    feedback: isPractice,
+                    feedback: feedbackBlock[b],
                     warnings: [],
                     stimulusDrawTime: [],
                     stimulusOffTime: [],
