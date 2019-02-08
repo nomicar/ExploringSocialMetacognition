@@ -443,8 +443,7 @@ class Advisor {
      * @constructor
      *
      * @param {int|Object} id - identification number for this advisor, or a deparsed Advisor object to be regenerated
-     * @param {int} [adviceType] - advice profile for this advisor. 0=default, 1=agree-in-confidence;
-     *  2=agree-in-uncertainty
+     * @param {int} [adviceType] - advice profile for this advisor. 0=default, 9-14 = varying advice quality 50-100%
      * @param {Object|int} [voice=null] - voice object for the advisor. Either a voice object, or an int to pass
      *  to the Voice constructor. If blank, *id* is passed to the Voice constructor instead.
      * @param {int|string} [portrait=0] - identifier for the portrait image. If 0, *id* is used instead.
@@ -522,6 +521,7 @@ class Advisor {
     /**
      * Agreement function for the advisor
      * @returns {Function} - function producing a probability of agreement given judge's correctness and confidence
+     * For information choice experiment (cases 9-14), advisers differ based on their accuracy rates.
      */
     get agreementFunction() {
         switch(this.adviceType) {
@@ -599,7 +599,33 @@ class Advisor {
                     * when participants get 71% of answers correct. */
                     return judgeCorrect? 0.66 : 0.17;
                 };
-            default:
+            // Cases for information choice experiment: Advisers differ in accuracy
+            // and their responses do not depend on subject accuracy
+            case 9: // 66% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 2/3 : 1/3;
+                };
+            case 10: // 80% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 4/5 : 1/5;
+                };
+            case 11: // 90% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 9/10 : 1/10;
+                };
+            case 12: // 80% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 0.8 : 0.2;
+                };
+            case 13: // 90% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 0.9 : 0.1;
+                };
+            case 14: // 100% accuracy
+                return function(judgeCorrect) {
+                    return judgeCorrect ? 1 : 0 ;
+                };
+            default: // 70% accuracy
                 return function(judgeCorrect) {
                     if (judgeCorrect !== true)
                         return 0.3;

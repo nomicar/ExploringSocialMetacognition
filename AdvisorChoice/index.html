@@ -59,8 +59,11 @@
         3|4 = strong metacog
         5|6 = acc
         7|8 = agg
+        9 = 2/3 accuracy rate
+        10 = 4/5 accyracy rate
+        11 = 9/10 accuracy rate
     */
-    let adviceTypes = 0;
+    let adviceTypes = (utils.shuffle([9,10,11]).concat(utils.shuffle([9,10,11])));
     let advisorIdDeck = utils.shuffle(utils.getSequence(1,7));
     let advisorVoiceDeck = utils.shuffle(utils.getSequence(1,10));
     let advisorPicDeck = utils.shuffle(utils.getSequence(1,7));
@@ -88,7 +91,7 @@
             styleClassDeck[1].toString(), practiceArgs);
 
         advisorListA = [
-            new Advisor(advisorIdDeck[1], adviceTypes[1], advisorVoiceDeck[1], advisorPicDeck[1],
+            new Advisor(advisorIdDeck[1], adviceTypes[0], advisorVoiceDeck[1], advisorPicDeck[1],
                 styleClassDeck[1].toString(), args)
         ];
         advisorListB = [
@@ -96,19 +99,19 @@
                 styleClassDeck[2].toString(), args)
         ];
         advisorListC = [
-            new Advisor(advisorIdDeck[3], adviceTypes[1], advisorVoiceDeck[3], advisorPicDeck[3],
+            new Advisor(advisorIdDeck[3], adviceTypes[2], advisorVoiceDeck[3], advisorPicDeck[3],
                 styleClassDeck[3].toString(), args)
         ];
         advisorListD = [
-            new Advisor(advisorIdDeck[4], adviceTypes[1], advisorVoiceDeck[4], advisorPicDeck[4],
+            new Advisor(advisorIdDeck[4], adviceTypes[3], advisorVoiceDeck[4], advisorPicDeck[4],
                 styleClassDeck[4].toString(), args)
         ];
         advisorListE = [
-            new Advisor(advisorIdDeck[5], adviceTypes[1], advisorVoiceDeck[5], advisorPicDeck[5],
+            new Advisor(advisorIdDeck[5], adviceTypes[4], advisorVoiceDeck[5], advisorPicDeck[5],
                 styleClassDeck[5].toString(), args)
         ];
         advisorListF = [
-            new Advisor(advisorIdDeck[6], adviceTypes[1], advisorVoiceDeck[6], advisorPicDeck[6],
+            new Advisor(advisorIdDeck[6], adviceTypes[5], advisorVoiceDeck[6], advisorPicDeck[6],
                 styleClassDeck[6].toString(), args)
         ];
     } else { // "Cue"
@@ -805,32 +808,32 @@
 
     timeline.push(finalInstructions);
 
+// real experiment
     // real experiment
-    for (let a=0; a<gov.advisorLists.length; a++) {
-        //timeline.push(questionnaireProspective);
-        //timeline.push(questionnaireProspective);
-
-        // real experiment
-        for (let b=0; b<gov.blockStructure.length; b++) {
-            // find trials in this block
-            let trials = utils.getMatches(gov.trials, function(trial) {
-                return trial.block === b + gov.practiceBlockStructure.length;
-            });
-            // add the trials selecting the appropriate procedure for the trial type
-            while(trials.length)
+    for (let b=0; b<gov.blockCount; b++) {
+        // find trials in this block
+        let trials = utils.getMatches(gov.trials, function(trial) {
+            return trial.block === b + gov.practiceBlockStructure.length;
+        });
+        // add the trials selecting the appropriate procedure for the trial type and feedback condition
+        while(trials.length)
+            if (trials[0].feedback === 1) {
+                timeline.push({timeline: procedures_feedback[trials.shift().type]});
+            } else {
                 timeline.push({timeline: procedures[trials.shift().type]});
-            timeline.push(blockBreak);
-        }
+            }
 
-        // Remove the last break screen
-        timeline.pop();
-
-        //timeline.push(questionnaire);
-        //timeline.push(questionnaire);
         timeline.push(blockBreak);
     }
 
+    // Remove the last break screen
     timeline.pop();
+
+    //timeline.push(questionnaire);
+    //timeline.push(questionnaire);
+    timeline.push(blockBreak);
+
+timeline.pop();
 
     // Trust questionnaire
     //timeline.push(genTrustQuestionnaire);
