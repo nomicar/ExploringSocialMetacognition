@@ -1097,7 +1097,7 @@ class AdvisorChoice extends DotTask {
         let id = 0;
         let realId = 0;
         let advisorSets = this.advisorLists.length;
-        let blockCount = this.blockStructure.length * advisorSets;
+        let blockCount = this.blockStructure.length * this.blockCount; //number of subblocks: multiply subblock num by main blocks to get total subblock number
         let practiceBlockCount = this.practiceBlockStructure.length;
         // determine where advisor option appears for each block
         let advisorAbove = utils.shuffleShoe([1, 0], (blockCount+practiceBlockCount)/2);
@@ -1116,7 +1116,7 @@ class AdvisorChoice extends DotTask {
             // determine which side the correct answer appears on
         let whichSideDeck = utils.shuffleShoe([0, 1], advisorSets*utils.sumList(this.blockStructure));
         // Define trials
-        for (let b=0; b<practiceBlockCount+blockCount; b++) {
+        for (let b=0; b<practiceBlockCount+blockCount; b++) { // go over all subblocks
             let advisorSet = 0;
             let advisor0id = null;
             let advisor1id = null;
@@ -1124,19 +1124,20 @@ class AdvisorChoice extends DotTask {
             let advisorChoices = [];
             let advisorForceDeck = null;
             let advisorChangeDeck = null;
-            if (b >= practiceBlockCount) {
-                advisorSet = Math.floor((b-practiceBlockCount) / this.blockStructure.length);
-                blockStructure = this.blockStructure[(b-practiceBlockCount)%this.blockStructure.length];
-                advisorChoices = this.advisorLists[advisorSet];
+            if (b >= practiceBlockCount) { // do for experimental blocks
+                advisorSet = Math.floor((b-practiceBlockCount) / this.blockStructure.length); //adviser set changes only in main blocks, not subblocks
+                blockStructure = this.blockStructure[(b-practiceBlockCount)%this.blockStructure.length];  //get the structure of this subblock
+                advisorChoices = this.advisorLists[advisorSet]; // get the advisors to be chosen from: in infoChoice study it's just one advisor
                 trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([1,2,3], (utils.sumList(this.blockStructure)/3)));
             } else {
                 advisorSet = 0;
                 blockStructure = this.practiceBlockStructure[b];
                 advisorChoices = this.practiceAdvisors;
             }
-            advisor0id = advisorChoices[0].adviceType % 2? advisorChoices[1].id : advisorChoices[0].id;
-            if(advisorChoices.length > 1)
-                advisor1id = advisorChoices[0].adviceType % 2? advisorChoices[0].id : advisorChoices[1].id;
+            // get advisor ids
+            advisor0id = advisorChoices[0].id;
+            if(advisorChoices.length > 1) // check if there is more than one advisor
+                advisor1id =  advisorChoices[1].id;
             else
                 advisor1id = advisor0id;
             // Shuffle advisors so they appear an equal number of times
@@ -1161,14 +1162,15 @@ class AdvisorChoice extends DotTask {
                     advisorId = trialType===trialTypes.catch? 0 : this.practiceAdvisor.id;
                 else
                     advisorId = trialType === trialTypes.force? advisorForceDeck.pop().id : 0;
-                // Nomi: for now set advisorid to advisor0id
-                if (trialType === trialTypes.infoChoice)
-                    advisorId = advisor0id;
+                    // if it's an information choice trial set the advisorId to advisor0id
+                      if (trialType === trialTypes.infoChoice)
+                        advisorId = advisor0id;
                 let defaultAdvisor = trialType === trialTypes.change? advisorChangeDeck.pop().id : null;
                 let changes = trialType === trialTypes.change? 0 : null;
                 let r = Math.random() < .5? 1 : 0;
                 let choice = trialType === trialTypes.choice? [advisorChoices[r].id, advisorChoices[1-r].id] : [];
-                // let choice = isPractice? [] : [advisorChoices[r].id, advisorChoices[1-r].id];
+                //let choice = isPractice? [] : [advisorChoices[r].id, advisorChoices[1-r].id];
+
                 trials.push(new Trial(id, {
                     type: trialType,
                     typeName: trialTypeNames[trialType],
