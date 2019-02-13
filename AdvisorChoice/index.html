@@ -746,6 +746,8 @@
         [trialTypes.infoChoice]: [initialDecision, adviceOrStim, finalDecision]
     };
 
+
+    // Define the training and instructions
     let trainingTrials = utils.getMatches(gov.trials, function(trial) {
         return trial.block < 2;
     });
@@ -753,7 +755,6 @@
     gov.currentTrialIndex = 0;
     // intro and training
     timeline.push(welcome);
-    //timeline.push({timeline: [initialDecision, adviceOrStim, finalDecision]})
     timeline.push({timeline: [introInitialDecision, feedbackDisplay]});
     trainingTrials.shift();
     timeline.push(sliderInstructions);
