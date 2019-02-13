@@ -188,13 +188,13 @@
         ],
         practiceBlockStructure: [
             {
-                [trialTypes.catch]: 3,//63, // intro trials need to be accommodated in the first practice block
+                [trialTypes.catch]: 6,//63, // intro trials need to be accommodated in the first practice block
             },
             {
-                [trialTypes.catch]: 3,//60,
+                [trialTypes.catch]: 6,//60,
             },
             {
-                [trialTypes.infoChoice]: 3
+                [trialTypes.infoChoice]: 6
             }
         ],
         preTrialInterval: 200,
@@ -222,12 +222,12 @@
     const welcome = {
         type: 'instructions',
         pages: [
-            "Welcome to the experiment. Click 'next' to begin.",
-            "<p>You will see two boxes containing dots either side of the centre of the screen. " +
-            "Your task is to use the slider to decide which of the two boxes has the most dots.</p>"+
-            "<p>You make your decision by using the grey bars below the boxes. Once you've made your" +
+            "Welcome and thank you for participating in this study! Click 'next' to begin.",
+            "<p>During the study you will see two boxes containing dots on either side of the centre of the screen. " +
+            "Your task is to decide which of the two boxes contains more dots.</p>"+
+            "<p>You will make your decision by using the green bar below the boxes. Once you've made your" +
             " decision you'll see <strong>the dots in the correct box reappear</strong> briefly.</p>" +
-            "Click one of the boxes and then press the 'continue' button.</p>" +
+            "Choose one of the boxes and then press the 'continue' button.</p>" +
             "<p>To help reduce distractions, we're going to use <strong>fullscreen mode</strong>.</p>" +
             "<p>Click 'next' to enter fullscreen mode and proceed.</p>"
         ],
@@ -241,7 +241,7 @@
 
     const sliderInstructions = {
         type: 'instructions',
-        pages: ["<p>You can use the slider to indicate your <strong>confidence</strong> as well. " +
+        pages: ["<p>Please use the slider to indicate your <strong>confidence</strong> as well. " +
         "You do this by moving the slider more towards the edges if you are sure, and more towards the " +
         "middle if you are unsure.</p>" +
         "<p>E.g. if you were <strong>sure</strong> there were more dots on the <strong>left</strong>, you would move the " +
@@ -249,6 +249,7 @@
         "<p>If you thought there were more dots on the <strong>right</strong>, but you were " +
         "<strong>guessing</strong>, you would move the slider, just to the <strong>right</strong> " +
         "of the centre.</p>" +
+        "<p>Please try to report your confidence as reliably as possible " +
         "<p>Try using the slider to indicate your confidence now.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
@@ -270,44 +271,43 @@
 
     const practiceInstructions = {
         type: 'instructions',
-        pages: ["<p>Good.</p>" +
-        "<p>The main experiment will start after you have had a bit of practice with the task.</p>" +
+        pages: ["<p>Well done!</p>" +
+        "<p>You will now have some practice with the task before starting the main experiment.</p>" +
+        "<p>Please try and be as accurate as possible in judging which box has more dots and in" +
+        " reporting your confidence.</p>" +
         "<p>To begin the practice, press 'next'.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
     };
 
-    const dualAdviceInstructions = {
+    const infoChoiceInstructions = {
         type: 'instructions',
-        pages: ["<p>Most of the time you will get <strong>advice</strong> from advisors to help you make your " +
-        "decision.</p>" +
-        "<p>This advice is not always correct, but it is there to help you: if you use the advice you will " +
-        "perform better on the task.</p>" +
-        "<p>Once you have heard the advice you will have the opportunity to adjust your answer. <strong>" +
-        "Your previous answer</strong> is shown by a yellow marker. You are free to adjust your answer to indicate " +
-        "that you are more or less sure, and even to change which box you think had most dots.</p>",
-        "<p>Sometimes you will get advice from two advisors at the same time.</p>" +
-        "<p>Click 'next' to see an example.</p>"],
+        pages: ["<p>In the next part you will perform the same dot task. However, you will " +
+        "get two chances at making your decision.</p>" +
+        "<p>After giving your initial response, you will choose if you want to see the stimulus again," +
+        " for longer this time, or get advice on what the correct response is from a virtual adviser " +
+        "performing the same task. You will then report your final decision and confidence.</p>" +
+        "<p>To choose the type of information you'd like select the corresponding box with the cursor. </p>" +
+        "<p>Click 'next' to try an example trial.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
     };
 
-    const changeAdviceInstructions = {
-        type: 'instructions',
-        pages: ["<p>Sometimes you will be given a <strong>choice of advisor</strong>. When this happens you will see " +
-        "which advisor is going to be providing you with advice. Press the <strong>spacebar</strong> to " +
-        "change to the other advisor.</p>" +
-        "<p>Click 'next' to see an example.</p>"],
-        show_clickable_nav: true,
-        on_load: ()=>gov.drawProgressBar(),
-        on_finish: (trial)=>gov.storeMiscTrialData(trial)
-    };
 
     const adviceInstructions = {
         type: 'instructions',
-        pages: ["<p>The experiment will begin after you have practiced a little with advice.</p>"],
+        pages: ["<p>Please note that on each trial the advice can be either right or wrong." +
+        " The advisor will be different for each block, as will the quality of their advice " +
+        "(as in life, some advisors are better than others).</p>" +
+        "<p>After viewing the stimulus again or receiving advice you will have the opportunity to adjust " +
+        "your initial choice and confidence judgement. Please keep in mind that your confidence rating is" +
+        " always about <strong>your own current response</strong>, not about whether you think the " +
+        "advisor is correct! </p>" +
+        "<p>You will receive feedback (by seeing the dots in the correct box reappear briefly) " +
+        "on some blocks, while on other blocks you will not receive this feedback.</p>" +
+        "<p> You will now perform a training block of the entire task.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
@@ -317,10 +317,14 @@
         type: 'instructions',
         pages: ["<p>Excellent. You are now ready to do the experiment.</p>" +
         "<p>Please make sure you are in a comfortable, quiet environment, and you are ready to begin.</p>" +
-        "<p>You will be asked some quick questions about the advisors you're about to work with, and then " +
-        "you will do a block of the task seeing both advisors followed by a block where you have to choose.</p>" +
-        "<p>This will happen for two pairs of advisors, so there are four experimental blocks for you to do.</p>",
-        "<p>You will no longer receive feedback on the task.</p>",
+        "<p>Your task is identical to the last training block.</p> " +
+        "<p>The experiment consists of 6 blocks. You can take breaks between these blocks. You will perform " +
+        "3 blocks with feedback, followed by three blocks without feedback.</p>" +
+        "<p>Please remember, during each block you will have only one advisor, but advisors will " +
+        "change between blocks. While on each trial advice can be correct or incorrect, some advisers will be " +
+        "better overall than others.</p>",
+        "<p>Please try and be as accurate as possible in judging which box has more dots and in reporting" +
+        "your confidence on both the initial and final response.</p>",
         "<p>Remember your <strong>bonus</strong> will depend on giving " +
         "<strong>correct answers after hearing advice</strong>, " +
         "and on how well you use the confidence scale.</p>"],
@@ -748,12 +752,13 @@
 
 
     // Define the training and instructions
+    // Create a list of the training trials
     let trainingTrials = utils.getMatches(gov.trials, function(trial) {
         return trial.block < 2;
     });
 
     gov.currentTrialIndex = 0;
-    // intro and training
+    // intro and training: Build up instructions with one trial between each instruction set
     timeline.push(welcome);
     timeline.push({timeline: [introInitialDecision, feedbackDisplay]});
     trainingTrials.shift();
@@ -779,23 +784,19 @@
     }
     timeline.pop(); // remove last break screen
 
-    // practice with advisor
-    let advisorTrainingTrials = utils.getMatches(gov.trials, function(trial) {
+    // practice with information choice
+    let infoChoiceTrainingTrials = utils.getMatches(gov.trials, function(trial) {
         return trial.block >= 2 && trial.practice;
     });
-    timeline.push(dualAdviceInstructions);
-    timeline.push({timeline: [advisorIntroInitialDecision, advice, finalDecision]});
-    advisorTrainingTrials.shift();
-
-    timeline.push(changeAdviceInstructions);
-    timeline.push({timeline: [advisorIntroInitialDecision, advice, finalDecision]});
-    advisorTrainingTrials.shift();
+    timeline.push(infoChoiceInstructions);
+    timeline.push({timeline: [advisorIntroInitialDecision, adviceOrStim, finalDecision, feedbackDisplay]});
+    infoChoiceTrainingTrials.shift();
 
     timeline.push(adviceInstructions);
     // fill in the rest
     for(let b=2; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
-        let trials = utils.getMatches(advisorTrainingTrials, function(trial) {
+        let trials = utils.getMatches(infoChoiceTrainingTrials, function(trial) {
             return trial.block === b;
         });
         if(trials != null && trials.length > 0) {
