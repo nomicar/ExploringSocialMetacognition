@@ -194,7 +194,7 @@
                 [trialTypes.catch]: 6,//60,
             },
             {
-                [trialTypes.infoChoice]: 6
+                [trialTypes.infoChoice]: 3
             }
         ],
         preTrialInterval: 200,
@@ -283,31 +283,28 @@
 
     const infoChoiceInstructions = {
         type: 'instructions',
-        pages: ["<p>In the next part you will perform the same dot task. However, you will " +
+        pages: ["<p>Well done! In the next part you will perform the same dot task. However, you will " +
         "get two chances at making your decision.</p>" +
         "<p>After giving your initial response, you will choose if you want to see the stimulus again," +
         " for longer this time, or get advice on what the correct response is from a virtual adviser " +
         "performing the same task. You will then report your final decision and confidence.</p>" +
-        "<p>To choose the type of information you'd like select the corresponding box with the cursor. </p>" +
-        "<p>Click 'next' to try an example trial.</p>"],
-        show_clickable_nav: true,
-        on_load: ()=>gov.drawProgressBar(),
-        on_finish: (trial)=>gov.storeMiscTrialData(trial)
-    };
-
-
-    const adviceInstructions = {
-        type: 'instructions',
-        pages: ["<p>Please note that on each trial the advice can be either right or wrong." +
+        "<p>To choose the type of information you'd like select the corresponding box with the cursor. </p>",
+        "<p>Please note that on each trial the advice can be either right or wrong." +
         " The advisor will be different for each block, as will the quality of their advice " +
         "(as in life, some advisors are better than others).</p>" +
         "<p>After viewing the stimulus again or receiving advice you will have the opportunity to adjust " +
         "your initial choice and confidence judgement. Please keep in mind that your confidence rating is" +
         " always about <strong>your own current response</strong>, not about whether you think the " +
         "advisor is correct! </p>" +
-        "<p>You will receive feedback (by seeing the dots in the correct box reappear briefly) " +
+        "<p>You will receive feedback (by seeing the dots reappear in the correct box briefly) " +
         "on some blocks, while on other blocks you will not receive this feedback.</p>" +
-        "<p> You will now perform a training block of the entire task.</p>"],
+        "<p> You will now perform a training block of the entire task.</p>",
+        "<p>A reminder of the entire task: </p> "+
+        "<p> 1) view boxes.</p>" +
+        "<p> 2) Report which box contains more dots and how confident you are in your response. </p>" +
+        "<p> 3) Choose between seeing the boxes again for longer or getting advice on the correct answer. </p>" +
+        "<p> 4) After receiving the additional information report your final response and confidence " +
+        "on which box has more dots. </p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
@@ -315,16 +312,22 @@
 
     const finalInstructions = {
         type: 'instructions',
-        pages: ["<p>Excellent. You are now ready to do the experiment.</p>" +
+        pages: ["<p>Excellent. You are now ready to perform the main experiment.</p>" +
         "<p>Please make sure you are in a comfortable, quiet environment, and you are ready to begin.</p>" +
         "<p>Your task is identical to the last training block.</p> " +
-        "<p>The experiment consists of 6 blocks. You can take breaks between these blocks. You will perform " +
-        "3 blocks with feedback, followed by three blocks without feedback.</p>" +
+        "<p>The experiment consists of 6 blocks. You can take breaks between these blocks. You will receive " +
+        "feedback (see the dots reappear in the correct box) in 3 of these 6 blocks.</p>" +
         "<p>Please remember, during each block you will have only one advisor, but advisors will " +
         "change between blocks. While on each trial advice can be correct or incorrect, some advisers will be " +
         "better overall than others.</p>",
-        "<p>Please try and be as accurate as possible in judging which box has more dots and in reporting" +
-        "your confidence on both the initial and final response.</p>",
+        "<p>A reminder of the entire task: </p> "+
+        "<p> 1) view boxes.</p>" +
+        "<p> 2) Report which box contains more dots and how confident you are in your response. </p>" +
+        "<p> 3) Choose between seeing the boxes again for longer or getting advice on the correct answer. </p>" +
+        "<p> 4) After receiving the additional information report your final response and confidence " +
+        "on which box has more dots. </p>" +
+        "<p>Please try and be as accurate as possible in judging which box has more dots and in reporting " +
+        "your confidence on both the initial and final response.</p>" +
         "<p>Remember your <strong>bonus</strong> will depend on giving " +
         "<strong>correct answers after hearing advice</strong>, " +
         "and on how well you use the confidence scale.</p>"],
@@ -789,10 +792,6 @@
         return trial.block >= 2 && trial.practice;
     });
     timeline.push(infoChoiceInstructions);
-    timeline.push({timeline: [advisorIntroInitialDecision, adviceOrStim, finalDecision, feedbackDisplay]});
-    infoChoiceTrainingTrials.shift();
-
-    timeline.push(adviceInstructions);
     // fill in the rest
     for(let b=2; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
