@@ -984,6 +984,8 @@ class AdvisorChoice extends DotTask {
      * @param {int} [args.preStimulusInterval] - fixation delay before the stimulus is displayed
      * @param {int} [args.stimulusDuration] - duration the dot stimulus is displayed
      * @param {int} [args.feedbackDuration] - duration of the feedback screen
+     * @param {int} [args.adviceDuration] - duration the advice is displayed if chosen
+     * @param {int} [args.secondStimulusDuration] - duration the dot stimulus is displayed for the second time if view chosen
      *
      * @param {Advisor[]} [args.advisors=[]] - list of advisors
      * @param {Advisor[]} [args.practiceAdvisors=[]] - practice advisor
@@ -1007,6 +1009,8 @@ class AdvisorChoice extends DotTask {
         this.generalisedTrustQuestionnaire = typeof args.generalisedTrustQuestionnaire === 'undefined'?
             null : args.generalisedTrustQuestionnaire;
         this.changeTime = typeof args.changeTime === 'undefined'? 1500 : args.changeTime;
+        this.secondStimulusDuration = typeof args.secondStimulusDuration === 'undefined'? null : args.secondStimulusDuration;
+        this.adviceDuration = typeof args.adviceDuration === 'undefined'? null : args.adviceDuration;
         this.drawDebriefForm = debriefForm; // why is this in a separate file?
     }
 

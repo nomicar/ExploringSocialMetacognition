@@ -126,8 +126,14 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
                     return;
                 }
 
-                // check if user chose to review stimulus
+                //set end of trial time to advice time
+                trial.trial_duration =  window.gov.adviceDuration;
+
+            // check if user chose to review stimulus
             } else if (response.choice === false) {
+
+                // change time limit for the trial
+                trial.trial_duration =  window.gov.preTrialInterval+ window.gov.preStimulusInterval + window.gov.secondStimulusDuration;
 
                 // display stimulus again
 

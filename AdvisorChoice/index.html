@@ -201,6 +201,8 @@
         preStimulusInterval: 500,
         stimulusDuration: 200,
         feedbackDuration: 200,
+        adviceDuration: 1500,
+        secondStimulusDuration: 300,
         completionURL: 'https://app.prolific.ac/submissions/complete?cc=MX5PC2Z4',
         advisorClass
     });
@@ -488,7 +490,7 @@
         }
     };
 
-    /* Present information according to judges choice  */
+    /* Present information (advice or stimulus) according to judges choice  */
     const adviceOrStim = {
         type: "jspsych-jas-present-info-choice",
         choiceFunction: (display_element, callback)=>gov.getInfoChoice(display_element, callback),
