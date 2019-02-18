@@ -745,7 +745,7 @@ class Advisor {
             textDiv = picDiv.appendChild(document.createElement('div'));
         textDiv.id = 'jspsych-jas-present-advice-prompt' + idSuffix;
         textDiv.classList.add('jspsych-jas-present-advice-prompt');
-        //textDiv.innerHTML = this.nameHTML; uncomment to diplay advisors name
+        textDiv.innerHTML = this.nameHTML;
         picDiv.classList.add(this.styleClass);
         textDiv.classList.add(this.styleClass);
         advisorDiv.classList.add(this.styleClass);
