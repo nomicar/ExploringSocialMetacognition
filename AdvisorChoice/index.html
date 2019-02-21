@@ -194,7 +194,7 @@
                 [trialTypes.catch]: 6,//60,
             },
             {
-                [trialTypes.infoChoice]: 3
+                [trialTypes.infoChoice]: 6
             }
         ],
         preTrialInterval: 200,
@@ -224,14 +224,28 @@
     const welcome = {
         type: 'instructions',
         pages: [
-            "Welcome and thank you for participating in this study! Click 'next' to begin.",
-            "<p>During the study you will see two boxes containing dots on either side of the centre of the screen. " +
-            "Your task is to decide which of the two boxes contains more dots.</p>"+
-            "<p>You will make your decision by using the green bar below the boxes. Once you've made your" +
-            " decision you'll see <strong>the dots in the correct box reappear</strong> briefly.</p>" +
-            "Choose one of the boxes and then press the 'continue' button.</p>" +
-            "<p>To help reduce distractions, we're going to use <strong>fullscreen mode</strong>.</p>" +
-            "<p>Click 'next' to enter fullscreen mode and proceed.</p>"
+            "<p>Welcome and thank you for participating in this study! Click 'next' to begin.</p>",
+            "<p>During the study you will perform multiple trials of the same task. In each trial you will see two" +
+            " boxes containing dots, like this: </p>" +
+            "<p><img src='assets/image/inst.jpg'</img></p>" +
+            "<p>Your task is to decide which of the two boxes contained more dots. In this case the right box " +
+            "contains more dots. </p>",
+            "<p> To choose which box contained more dots and express how <strong>confident</strong>" +
+            " you are you will use a scale like the one bellow.</p>" +
+            "<p><img src='assets/image/scale.jpg'</img></p>" +
+            "You will do so by pressing with the mouse cursor more towards the edges if you are sure, and more " +
+            "towards the middle if you are unsure. </p>" +
+            "<p>For example, if you were <strong>sure</strong> there were more dots on the <strong>right</strong>," +
+            " you would select all the way to the <strong>right</strong> of the scale.</p>" +
+            "<p>If you thought there were more dots on the <strong>left</strong>, but you were " +
+            "<strong>guessing</strong>, you would select just to the <strong>left</strong> " +
+            "of the centre. You can readjust the slider as much as you'd like before pressing continue.</p>",
+            "<p>Please try to report your confidence as reliably as possible. " +
+            "Once you've made your decision you'll see <strong>the dots in the correct box" +
+            " reappear</strong> briefly. Use this feedback to tell if your decision was correct. </p>" +
+            "<p> You must select one of the boxes (i.e. you cannot select the center of the scale). </p>" +
+            "<p>To try and perform the task press the 'next' button.</p>" +
+            "<p>To help reduce distractions, we're going to use <strong>fullscreen mode</strong>.</p>"
         ],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
@@ -241,30 +255,12 @@
         }
     };
 
-    const sliderInstructions = {
-        type: 'instructions',
-        pages: ["<p>Please use the slider to indicate your <strong>confidence</strong> as well. " +
-        "You do this by moving the slider more towards the edges if you are sure, and more towards the " +
-        "middle if you are unsure.</p>" +
-        "<p>E.g. if you were <strong>sure</strong> there were more dots on the <strong>left</strong>, you would move the " +
-        "slider all the way to the <strong>left</strong>.</p>" +
-        "<p>If you thought there were more dots on the <strong>right</strong>, but you were " +
-        "<strong>guessing</strong>, you would move the slider, just to the <strong>right</strong> " +
-        "of the centre.</p>" +
-        "<p>Please try to report your confidence as reliably as possible " +
-        "<p>Try using the slider to indicate your confidence now.</p>"],
-        show_clickable_nav: true,
-        on_load: ()=>gov.drawProgressBar(),
-        on_finish: (trial)=>gov.storeMiscTrialData(trial)
-    };
-
     const quickStimInstructions = {
         type: 'instructions',
         pages: ["<p>Good.</p>" +
-        "<p>From now on, <strong>the boxes will appear very briefly</strong>, so make sure you are " +
-        "concentrating or you will miss them. " +
+        "<p>From now on, <strong>the boxes will appear very briefly</strong>. Please keep your eyes fixed on the " +
+        "cross in the middle of the screen, and make sure you are concentrating or you will miss them. " +
         "The task is difficult at first, but you will get used to it.</p>" +
-        "It helps to keep your eyes fixed where the cross appears in the middle of the screen.</p>" +
         "<p>To try this, press 'next'.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
@@ -765,9 +761,6 @@
     gov.currentTrialIndex = 0;
     // intro and training: Build up instructions with one trial between each instruction set
     timeline.push(welcome);
-    timeline.push({timeline: [introInitialDecision, feedbackDisplay]});
-    trainingTrials.shift();
-    timeline.push(sliderInstructions);
     timeline.push({timeline: [introInitialDecision, feedbackDisplay]});
     trainingTrials.shift();
     timeline.push(quickStimInstructions);
