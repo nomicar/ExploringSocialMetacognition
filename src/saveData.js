@@ -57,10 +57,12 @@ export default function processData(data) {
         trialData.push(flattenTrialData(data.trials[t], participantData.id));
     participantData.trials = trialData;
 
+    /**
     // Generalized trust questionnaire
     if(typeof data.generalisedTrustQuestionnaire !== 'undefined')
         participantData.generalisedTrustQuestionnaire =
             flattenGTQ(data.generalisedTrustQuestionnaire, participantData.id);
+     */
 
     // Debrief stuff
     participantData.debrief = [];
