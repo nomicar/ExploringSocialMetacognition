@@ -381,8 +381,6 @@ class Voice {
             return {
                 think_left: new Line(null, "I think it was on the LEFT", 0, 0, true),
                 think_right: new Line(null, "I think it was on the RIGHT", 1, 0, true),
-                left_think: new Line(null, "It was on the LEFT, I think", 0, 0, true),
-                right_think: new Line(null, "It was on the RIGHT, I think", 1, 0, true),
                 intro: new Line(null, "Hello, my name is "+this.nameHTML, null, null, true)
             };
         let pth = this.basePath + "assets/audio/voices/" + this.id.toString() + '/';
@@ -392,10 +390,6 @@ class Voice {
             think_left: new Line(pth + 'think_left.wav', "I think it was on the LEFT",
                 0, 0, this.skipAudioPreload),
             think_right: new Line(pth + 'think_right.wav', "I think it was on the RIGHT",
-                1, 0, this.skipAudioPreload),
-            left_think: new Line(pth + 'left_think.wav', "It was on the LEFT, I think",
-                0, 0, this.skipAudioPreload),
-            right_think: new Line(pth + 'right_think.wav', "It was on the RIGHT, I think",
                 1, 0, this.skipAudioPreload),
             intro: new Line(pth + 'intro.wav', "Hello, my name is "+this.nameHTML,
                 null, null, this.skipAudioPreload)
@@ -601,17 +595,17 @@ class Advisor {
                 };
             // Cases for information choice experiment: Advisers differ in accuracy
             // and their responses do not depend on subject accuracy
-            case 9: // 66% accuracy
+            case 9: // 50% accuracy
                 return function(judgeCorrect) {
-                    return judgeCorrect ? 2/3 : 1/3;
+                    return judgeCorrect ? 0.5 : 0.5;
                 };
-            case 10: // 80% accuracy
+            case 10: // 60% accuracy
                 return function(judgeCorrect) {
-                    return judgeCorrect ? 4/5 : 1/5;
+                    return judgeCorrect ? 0.6 : 0.4;
                 };
-            case 11: // 90% accuracy
+            case 11: // 70% accuracy
                 return function(judgeCorrect) {
-                    return judgeCorrect ? 9/10 : 1/10;
+                    return judgeCorrect ? 0.7 : 0.3 ;
                 };
             case 12: // 80% accuracy
                 return function(judgeCorrect) {
