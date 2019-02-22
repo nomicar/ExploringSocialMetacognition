@@ -63,14 +63,14 @@
         10 = 4/5 accyracy rate
         11 = 9/10 accuracy rate
     */
-    let adviceTypes = (utils.shuffle([9,10,11]).concat(utils.shuffle([9,10,11])));
-    let advisorIdDeck = utils.shuffle(utils.getSequence(1,7));
-    let advisorVoiceDeck = utils.shuffle(utils.getSequence(1,10));
-    let advisorPicDeck = utils.shuffle(utils.getSequence(1,7));
+    let adviceTypes = (utils.shuffle([10,11,12,13,14]));
+    let advisorIdDeck = utils.shuffle(utils.getSequence(1,6));
+    let advisorVoiceDeck = utils.shuffle(utils.getSequence(1,6));
+    let advisorPicDeck = utils.shuffle(utils.getSequence(1,6));
     let args = {skipAudioPreload: true};
     let practiceArgs = {skipAudioPreload: true, practice: true};
     // Each advisor in a pair has one of the two colour schemes (assigned randomly)
-    let styleClassDeck = utils.shuffle(utils.getSequence(1,7));
+    let styleClassDeck = utils.shuffle(utils.getSequence(1,6));
 
     let practiceAdvisor0;
     let practiceAdvisor1;
@@ -79,16 +79,15 @@
     let advisorListC;
     let advisorListD;
     let advisorListE;
-    let advisorListF;
 
     if(advisorClass === "Advisor") {
-        practiceAdvisor0 = new Advisor(advisorIdDeck[0], 0,
+        practiceAdvisor0 = new Advisor(advisorIdDeck[0], 12,
             advisorVoiceDeck[0], advisorPicDeck[0],
             styleClassDeck[0].toString(), practiceArgs);
 
-        practiceAdvisor1 = new Advisor(advisorIdDeck[1], 0,
-            advisorVoiceDeck[1], advisorPicDeck[1],
-            styleClassDeck[1].toString(), practiceArgs);
+        practiceAdvisor1 = new Advisor(advisorIdDeck[0], 12,
+            advisorVoiceDeck[0], advisorPicDeck[0],
+            styleClassDeck[0].toString(), practiceArgs);
 
         advisorListA = [
             new Advisor(advisorIdDeck[1], adviceTypes[0], advisorVoiceDeck[1], advisorPicDeck[1],
@@ -109,10 +108,6 @@
         advisorListE = [
             new Advisor(advisorIdDeck[5], adviceTypes[4], advisorVoiceDeck[5], advisorPicDeck[5],
                 styleClassDeck[5].toString(), args)
-        ];
-        advisorListF = [
-            new Advisor(advisorIdDeck[6], adviceTypes[5], advisorVoiceDeck[6], advisorPicDeck[6],
-                styleClassDeck[6].toString(), args)
         ];
     } else { // "Cue"
         practiceAdvisor0 = new Cue(advisorIdDeck[0], 0,
@@ -135,6 +130,7 @@
         ];
     }
 
+    let feedbackCondition = (Math.random() < .5)? 1: 0; //randomise feedback condition
     /**
     if (Math.random() < .5)
         advisorListA = [advisorListA[1], advisorListA[0]];
@@ -165,7 +161,6 @@
             advisorListC,
             advisorListD,
             advisorListE,
-            advisorListF
         ],
         practiceAdvisors: [
             practiceAdvisor0,
@@ -177,13 +172,12 @@
             advisorListC[0],
             advisorListD[0],
             advisorListE[0],
-            advisorListF[0]
         ],
         contingentAdvisors: [[], [], []],
-        blockCount: 6,
+        blockCount: 5,
         blockStructure: [
             {
-                [trialTypes.infoChoice]: 6
+                [trialTypes.infoChoice]: 3
             }
         ],
         practiceBlockStructure: [
@@ -197,14 +191,15 @@
                 [trialTypes.infoChoice]: 6
             }
         ],
-        preTrialInterval: 200,
-        preStimulusInterval: 500,
-        stimulusDuration: 200,
-        feedbackDuration: 200,
-        adviceDuration: 1500,
+        preTrialInterval: 800,
+        preStimulusInterval: 400,
+        stimulusDuration: 150,
+        feedbackDuration: 300,
+        adviceDuration: 1000,
         secondStimulusDuration: 300,
         completionURL: 'https://app.prolific.ac/submissions/complete?cc=MX5PC2Z4',
-        advisorClass
+        advisorClass,
+        feedbackCondition
     });
 
     // hoist gov to allow functions access
@@ -230,7 +225,7 @@
             "<p><img src='assets/image/inst.jpg'</img></p>" +
             "<p>Your task is to decide which of the two boxes contained more dots. In this case the right box " +
             "contains more dots. </p>",
-            "<p> To choose which box contained more dots and express how <strong>confident</strong>" +
+            "<p> To choose which box contained more dots and express how confident " +
             " you are you will use a scale like the one bellow.</p>" +
             "<p><img src='assets/image/scale.jpg'</img></p>" +
             "You will do so by pressing with the mouse cursor more towards the edges if you are sure, and more " +
@@ -239,12 +234,13 @@
             " you would select all the way to the <strong>right</strong> of the scale.</p>" +
             "<p>If you thought there were more dots on the <strong>left</strong>, but you were " +
             "<strong>guessing</strong>, you would select just to the <strong>left</strong> " +
-            "of the centre. You can readjust the slider as much as you'd like before pressing continue.</p>",
+            "of the centre.</p>" +
+            "<p>You can readjust the slider as many times as you'd like before pressing continue, " +
+            "but you must select one of the boxes (i.e. you cannot select 50%, the center of the scale). </p>",
             "<p>Please try to report your confidence as reliably as possible. " +
             "Once you've made your decision you'll see <strong>the dots in the correct box" +
             " reappear</strong> briefly. Use this feedback to tell if your decision was correct. </p>" +
-            "<p> You must select one of the boxes (i.e. you cannot select the center of the scale). </p>" +
-            "<p>To try and perform the task press the 'next' button.</p>" +
+            "<p>To try and perform a trial of the task press the 'next' button.</p>" +
             "<p>To help reduce distractions, we're going to use <strong>fullscreen mode</strong>.</p>"
         ],
         show_clickable_nav: true,
@@ -270,7 +266,8 @@
     const practiceInstructions = {
         type: 'instructions',
         pages: ["<p>Well done!</p>" +
-        "<p>You will now have some practice with the task before starting the main experiment.</p>" +
+        "<p>You will now have some more practice with the task before starting the main experiment. " +
+        "The practice will be divided into two blocks, with a break screen separating them. </p>" +
         "<p>Please try and be as accurate as possible in judging which box has more dots and in" +
         " reporting your confidence.</p>" +
         "<p>To begin the practice, press 'next'.</p>"],
@@ -294,8 +291,6 @@
         "your initial choice and confidence judgement. Please keep in mind that your confidence rating is" +
         " always about <strong>your own current response</strong>, not about whether you think the " +
         "advisor is correct! </p>" +
-        "<p>You will receive feedback (by seeing the dots reappear in the correct box briefly) " +
-        "on some blocks, while on other blocks you will not receive this feedback.</p>" +
         "<p> You will now perform a training block of the entire task.</p>",
         "<p>A reminder of the entire task: </p> "+
         "<p> 1) view boxes.</p>" +
@@ -308,13 +303,21 @@
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
     };
 
+    const noFeedbackInstructions = {
+        type: 'instructions',
+        pages: ["<p>Please note that from now on you will not receive feedback after every trial "+
+        "(i.e. the dots will no longer reappear in the correct box after you respond). </p>"],
+        show_clickable_nav: true,
+        on_load: ()=>gov.drawProgressBar(),
+        on_finish: (trial)=>gov.storeMiscTrialData(trial)
+    };
+
     const finalInstructions = {
         type: 'instructions',
         pages: ["<p>Excellent. You are now ready to perform the main experiment.</p>" +
         "<p>Please make sure you are in a comfortable, quiet environment, and you are ready to begin.</p>" +
         "<p>Your task is identical to the last training block.</p> " +
-        "<p>The experiment consists of 6 blocks. You can take breaks between these blocks. You will receive " +
-        "feedback (see the dots reappear in the correct box) in 3 of these 6 blocks.</p>" +
+        "<p>The experiment consists of 5 blocks. You can take breaks between these blocks.</p>" +
         "<p>Please remember, during each block you will have only one advisor, but advisors will " +
         "change between blocks. While on each trial advice can be correct or incorrect, some advisers will be " +
         "better overall than others.</p>",
@@ -787,6 +790,9 @@
         return trial.block >= 2 && trial.practice;
     });
     timeline.push(infoChoiceInstructions);
+    if (feedbackCondition != 1){
+        timeline.push(noFeedbackInstructions);
+    }
     // fill in the rest
     for(let b=2; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
@@ -795,8 +801,13 @@
         });
         if(trials != null && trials.length > 0) {
             // add the trials selecting the appropriate procedure for the trial type
-            while(trials.length)
-                timeline.push({timeline: procedures_feedback[trials.shift().type]});
+            while (trials.length) {
+                if (feedbackCondition === 1) {
+                    timeline.push({timeline: procedures_feedback[trials.shift().type]});
+                } else if (feedbackCondition === 0) {
+                    timeline.push({timeline: procedures_feedback[trials.shift().type]});
+                }
+            }
             timeline.push(blockBreak);
         }
     }
