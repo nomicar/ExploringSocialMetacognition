@@ -994,6 +994,7 @@ class AdvisorChoice extends DotTask {
      * @param {[Advisor[]]} [args.questionnaireStack] - stack of advisors about whom questionnaires are to be asked
      * @param {Object} [args.generalisedTrustQuestionnaire=null] - Generalised Trust Questionnaire response
      * @param {int} [args.changeTime = 1500] - time to offer advisor change on change trials in ms
+     * @param {bol} [args.feedbackCondition] - random assignment of experimental feedback condition.
      *
      * @property {Advisor} currentAdvisor - advisor currently in focus
      * @property {Trial} currentTrial - trial currently underway
@@ -1107,15 +1108,9 @@ class AdvisorChoice extends DotTask {
         let advisorAbove = utils.shuffleShoe([1, 0], (blockCount+practiceBlockCount)/2);
 
         // determine if it's a feedback block
-        let feedbackFirst = Math.random() < .5? 1 : 0; //randomise feedback condition timing
-        let feedbackBlock = utils.shuffleShoe([1, 0], blockCount/2);
-        if (feedbackFirst === 1) { //start with feedback blocks
-            feedbackBlock.reverse();
-        } else { // start without feedback
-            feedbackBlock.sort();
-        }
-        // add feedback on practice blocks
-        feedbackBlock = (utils.shuffleShoe([1],practiceBlockCount)).concat(feedbackBlock);
+        // add feedback on practice blocks without advisor. For blocks with advice (feedback and experimental),
+        // go according to the participant's experimental condition (with or without feedback)
+        let feedbackBlock = (utils.shuffleShoe([1],practiceBlockCount-1)).concat(utils.shuffleShoe([this.feedbackCondition],blockCount+1));
 
             // determine which side the correct answer appears on
         let whichSideDeck = utils.shuffleShoe([0, 1], advisorSets*utils.sumList(this.blockStructure));
