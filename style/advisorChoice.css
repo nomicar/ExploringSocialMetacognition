@@ -80,15 +80,33 @@ img.advisorChoice-choice {
     display: block;
     margin: 20px auto;
 }
+
+.stim-img > img {
+    margin: 0;
+    width: 100%;
+    border-radius: 1em;
+}
+
+.jspsych-jas-present-advice-image.stim-img {
+    padding: 0;
+    width: 12.5em;
+    background-color: white;
+}
+
 .advisorChoice-choice:hover {
     cursor: pointer;
 }
-div.advisorChoice-choice div.jspsych-jas-present-advice-image {
+div.advisorChoice-choice div.jspsych-jas-present-advice-image:not(.stim-img),
+div.advisorChoice-choice .stim-img > img
+{
     transition: box-shadow .2s;
     box-shadow: none;
 }
-div.advisorChoice-choice:hover div.jspsych-jas-present-advice-image {
+div.advisorChoice-choice:hover div.jspsych-jas-present-advice-image:not(.stim-img){
     box-shadow: inset 0 0 5px 1px black;
+}
+div.advisorChoice-choice:hover .stim-img > img {
+    box-shadow: 0 0 5px 1px black;
 }
 .jspsych-content {
     width: 100%;
@@ -194,7 +212,7 @@ div.jspsych-jas-present-advice-image {
     padding: 0 1em;
     border-radius: 1em;
     width: 10em;
-    margin: auto;
+    margin: 1em auto;
 }
 @keyframes advisorChoice-change-select {
     from{transform: scale(.667);}
