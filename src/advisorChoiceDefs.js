@@ -80,9 +80,11 @@ class DotTask extends Governor {
             0: 0
         } : args.practiceBlockStructure;
         this.preTrialInterval = typeof args.preTrialInterval === 'undefined'? null : args.preTrialInterval;
+        this.fixationDuration = typeof args.fixationDuration === 'undefined'? null : args.fixationDuration;
         this.preStimulusInterval = typeof args.preStimulusInterval === 'undefined'? null : args.preStimulusInterval;
         this.stimulusDuration = typeof args.stimulusDuration === 'undefined'? null : args.stimulusDuration;
         this.feedbackDuration = typeof args.feedbackDuration === 'undefined'? null : args.feedbackDuration;
+        this.adviceDuration = typeof args.adviceDuration === 'undefined'? null : args.adviceDuration;
     }
 
     /**
@@ -199,12 +201,15 @@ class DotTask extends Governor {
 
         let self = this;
         setTimeout(function () {
-            self.currentTrial.fixationDrawTime.push(performance.now());
+            self.currentTrial.fixationDrawTime.push(performance.now()); //draw fixation only
             DotTask.drawFixation(canvasId);
-            self.currentTrial.grid.drawBoundingBoxes(canvasId);
         }, this.preTrialInterval);
         setTimeout(function(){
-            self.currentTrial.stimulusDrawTime.push(performance.now());
+            self.currentTrial.framesDrawTime.push(performance.now()); //draw boxes
+            self.currentTrial.grid.drawBoundingBoxes(canvasId);
+        }, this.preTrialInterval+this.fixationDuration);
+        setTimeout(function(){
+            self.currentTrial.stimulusDrawTime.push(performance.now()); //draw stimulus
             self.currentTrial.grid.draw(canvasId);
         }, this.preTrialInterval+this.preStimulusInterval);
     }
