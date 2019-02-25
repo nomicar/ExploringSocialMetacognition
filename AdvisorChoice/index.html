@@ -130,7 +130,8 @@
         ];
     }
 
-    let feedbackCondition = (Math.random() < .5)? 1: 0; //randomise feedback condition
+    // let feedbackCondition = (Math.random() < .5)? 1: 0; //randomise feedback condition
+    let feedbackCondition = 1;
     /**
     if (Math.random() < .5)
         advisorListA = [advisorListA[1], advisorListA[0]];
@@ -182,19 +183,19 @@
         ],
         practiceBlockStructure: [
             {
-                [trialTypes.catch]: 6,//63, // intro trials need to be accommodated in the first practice block
+                [trialTypes.catch]: 12,//63, // intro trials need to be accommodated in the first practice block
             },
             {
-                [trialTypes.catch]: 6,//60,
+                [trialTypes.catch]: 10,//60,
             },
             {
                 [trialTypes.infoChoice]: 6
             }
         ],
-        preTrialInterval: 800,
-        preStimulusInterval: 400,
+        preTrialInterval: 600,
+        preStimulusInterval: 600,
         stimulusDuration: 150,
-        feedbackDuration: 300,
+        feedbackDuration: 200,
         adviceDuration: 1000,
         secondStimulusDuration: 300,
         completionURL: 'https://app.prolific.ac/submissions/complete?cc=MX5PC2Z4',
@@ -226,7 +227,7 @@
             "<p>Your task is to decide which of the two boxes contained more dots. In this case the right box " +
             "contains more dots. </p>",
             "<p> To choose which box contained more dots and express how confident " +
-            " you are you will use a scale like the one bellow.</p>" +
+            " you are you will use a scale like the one in the image bellow.</p>" +
             "<p><img src='assets/image/scale.jpg'</img></p>" +
             "You will do so by pressing with the mouse cursor more towards the edges if you are sure, and more " +
             "towards the middle if you are unsure. </p>" +
@@ -236,10 +237,10 @@
             "<strong>guessing</strong>, you would select just to the <strong>left</strong> " +
             "of the centre.</p>" +
             "<p>You can readjust the slider as many times as you'd like before pressing continue, " +
-            "but you must select one of the boxes (i.e. you cannot select 50%, the center of the scale). </p>",
+            "but you must select one of the boxes (i.e. you cannot select 50% at the center of the scale). </p>",
             "<p>Please try to report your confidence as reliably as possible. " +
             "Once you've made your decision you'll see <strong>the dots in the correct box" +
-            " reappear</strong> briefly. Use this feedback to tell if your decision was correct. </p>" +
+            " reappear</strong> briefly, providing feedback as to whether your decision was correct. </p>" +
             "<p>To try and perform a trial of the task press the 'next' button.</p>" +
             "<p>To help reduce distractions, we're going to use <strong>fullscreen mode</strong>.</p>"
         ],
@@ -811,8 +812,6 @@
             timeline.push(blockBreak);
         }
     }
-    timeline.pop(); // remove last break screen
-
     timeline.push(finalInstructions);
 
 // real experiment

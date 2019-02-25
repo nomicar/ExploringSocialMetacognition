@@ -403,6 +403,12 @@ class DotTask extends Governor {
         let trialList = utils.getMatches(this.trials, (trial)=>{
             return trial.block === block;
         });
+        let firstHitList =
+            utils.getMatches(trialList, (trial)=>{
+                let firstAnswer = trial.answer[0];
+                return firstAnswer === trial.whichSide;
+            });
+
         let hitList = utils.getMatches(trialList, (trial)=>{
             let answer = trial.answer[1];
             if (answer === null || isNaN(answer))
@@ -410,6 +416,7 @@ class DotTask extends Governor {
             return answer === trial.whichSide;
         });
 
+        let firstScore = firstHitList.length / trialList.length * 100;
         let score = hitList.length / trialList.length * 100;
         if (score < this.minimumBlockScore) {
             this.terminateExperiment(score);
@@ -417,8 +424,15 @@ class DotTask extends Governor {
         }
         let div = document.querySelector('#jspsych-content');
         let p = div.insertBefore(document.createElement('p'), div.querySelector('p'));
-        p.innerText = "Your score on the last block was " + (Math.round(score*100)/100).toString() + "%.";
+        if (block > 2) {
+            p.innerText = ("Your score on the last block was " + (Math.round(firstScore * 100) / 100).toString() + "% on " +
+                "your initial decision and " + (Math.round(score * 100) / 100).toString() + "% on you final decision.")
+        } else{
+            p.innerText = "Your score on the last block was " + (Math.round(score * 100) / 100).toString() + "%.";}
+
         this.drawProgressBar();
+
+
     }
 
     /**
