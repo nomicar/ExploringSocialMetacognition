@@ -1364,8 +1364,10 @@ class AdvisorChoice extends DotTask {
 
         // present choices - stimulus
         let stimDiv = document.createElement('div');
-        stimDiv.classList.add('stimChoice-choice');
-        let stimImg = stimDiv.appendChild(document.createElement('img'));
+        stimDiv.classList.add('stimChoice-choice', 'advisorChoice-choice');
+        let subDiv = stimDiv.appendChild(document.createElement('div'));
+        subDiv.classList.add('stim-img', 'jspsych-jas-present-advice-image');
+        let stimImg = subDiv.appendChild(document.createElement('img'));
         stimImg.classList.add('advisorChoice-choice');
         stimImg.id = 'stimChoice';
         stimImg.src = "assets/image/stim.jpg";
