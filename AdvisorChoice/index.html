@@ -81,6 +81,11 @@
     let advisorListE;
     let preTrialInterval = [];
 
+    //preload the image for choosing to review stim
+    var reviewStim_image =new Image();
+    reviewStim_image.src = "assets/image/stim.jpg";
+
+    //create advisors
     if(advisorClass === "Advisor") {
         practiceAdvisor0 = new Advisor(advisorIdDeck[0], 12,
             advisorVoiceDeck[0], advisorPicDeck[0],
@@ -140,13 +145,6 @@
         preTrialInterval = 400;
     }
 
-
-    /**
-    if (Math.random() < .5)
-        advisorListA = [advisorListA[1], advisorListA[0]];
-    if (Math.random() < .5)
-        advisorListB = [advisorListB[1], advisorListB[0]];
-    */
 
     /**
      * The governor contains the properties which the experiment functions need to access from everywhere.
