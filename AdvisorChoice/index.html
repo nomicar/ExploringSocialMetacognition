@@ -184,16 +184,19 @@
         ],
         practiceBlockStructure: [
             {
-                [trialTypes.catch]: 12,//63, // intro trials need to be accommodated in the first practice block
+                [trialTypes.catch]: 2 //intro trials
             },
             {
-                [trialTypes.catch]: 10,//60,
+                [trialTypes.catch]: 10 //First dot task training block
             },
             {
-                [trialTypes.infoChoice]: 6
+                [trialTypes.catch]: 10 //Second dot task training block
+            },
+            {
+                [trialTypes.infoChoice]: 6 // Information choice training block
             }
         ],
-        preTrialInterval: preTrialInterval,
+        preTrialInterval: 100,
         fixationDuration: 500,
         preStimulusInterval: 600, //this includes the fixationduration(400) and time after squares appear and before stim (100ms)
         stimulusDuration: 150,
@@ -754,14 +757,14 @@
         [trialTypes.choice]: [initialDecision, advice, finalDecision],
         [trialTypes.dual]: [initialDecision, advice, finalDecision],
         [trialTypes.change]: [initialDecision, advice, finalDecision],
-        [trialTypes.infoChoice]: [initialDecision, adviceOrStim, finalDecision]
+        [trialTypes.infoChoice]: [initialDecision, adviceOrStim, finalDecision, noFeedbackDisplay]
     };
 
 
     // Define the training and instructions
     // Create a list of the training trials
     let trainingTrials = utils.getMatches(gov.trials, function(trial) {
-        return trial.block < 2;
+        return trial.block < gov.practiceBlockStructure.length;
     });
 
     gov.currentTrialIndex = 0;
@@ -773,7 +776,7 @@
     timeline.push({timeline: [practiceInitialDecision, feedbackDisplay]});
     trainingTrials.shift();
 
-    // practice with feedback
+    // practice dot task with feedback
     timeline.push(practiceInstructions);
     // fill in the remaining non-advisor practice blocks
     for(let b=0; b < 2; b++) {
@@ -784,22 +787,20 @@
         // add the trials selecting the appropriate procedure for the trial type
         while(trials.length)
             timeline.push({timeline: procedures_feedback[trials.shift().type]});
+            trainingTrials.shift();
         timeline.push(blockBreak);
     }
     timeline.pop(); // remove last break screen
 
-    // practice with information choice
-    let infoChoiceTrainingTrials = utils.getMatches(gov.trials, function(trial) {
-        return trial.block >= 2 && trial.practice;
-    });
+    // Information choice instructions
     timeline.push(infoChoiceInstructions);
     if (feedbackCondition != 1){
         timeline.push(noFeedbackInstructions);
     }
-    // fill in the rest
+    // // practice with information choice
     for(let b=2; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
-        let trials = utils.getMatches(infoChoiceTrainingTrials, function(trial) {
+        let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
         });
         if(trials != null && trials.length > 0) {
@@ -808,7 +809,7 @@
                 if (feedbackCondition === 1) {
                     timeline.push({timeline: procedures_feedback[trials.shift().type]});
                 } else if (feedbackCondition === 0) {
-                    timeline.push({timeline: procedures_feedback[trials.shift().type]});
+                    timeline.push({timeline: procedures[trials.shift().type]});
                 }
             }
             timeline.push(blockBreak);
