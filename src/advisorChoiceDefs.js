@@ -430,13 +430,12 @@ class DotTask extends Governor {
         let div = document.querySelector('#jspsych-content');
         let p = div.insertBefore(document.createElement('p'), div.querySelector('p'));
         if (block > 2) {
-            p.innerText = ("Your score on the last block was " + (Math.round(firstScore * 100) / 100).toString() + "% on " +
-                "your initial decision and " + (Math.round(score * 100) / 100).toString() + "% on you final decision.")
+            p.innerText = ("Your score on the last block was " + (Math.round(firstScore)).toString() + "% on " +
+                "your initial decision and " + (Math.round(score)).toString() + "% on you final decision.")
         } else{
-            p.innerText = "Your score on the last block was " + (Math.round(score * 100) / 100).toString() + "%.";}
+            p.innerText = "Your score on the last block was " + (Math.round(score)).toString() + "%."};
 
         this.drawProgressBar();
-
 
     }
 
@@ -929,6 +928,18 @@ class DotTask extends Governor {
         trial.grid.draw(canvasId, trial.whichSide);
     }
 
+    /**
+     * Show empty boxes instead of feedback for the current trial.
+     * Called by jspsych-canvas-sliders-response
+     * @param {string} canvasId - id of the canvas to draw on
+     */
+    emptyTrialFeedback(canvasId) {
+        let canvas = document.getElementById(canvasId);
+        // give feedback on previous trial
+        let trial = this.trials[this.currentTrialIndex-1];
+        DotTask.drawFixation(canvasId);
+        trial.grid.drawBoundingBoxes(canvasId);
+    }
     /**
      * Wrap up a trial. Store data, staircase difficulty, and prepare next trial.
      * @param {Object} trial - jsPsych plugin response

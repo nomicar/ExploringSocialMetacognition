@@ -562,6 +562,17 @@
         trial_duration: gov.feedbackDuration
     };
 
+    /* Feedback shows a tick on the target box */
+    const noFeedbackDisplay = {
+        type: "canvas-sliders-response",
+        stimulus: (canvasId)=>{gov.emptyTrialFeedback(canvasId);},
+        prompt: '',
+        sliderCount: 0,
+        canvasWidth: testCanvas.w,
+        canvasHeight: testCanvas.h,
+        trial_duration: gov.feedbackDuration
+    };
+
     /* Questionnaires to ask about how the judge feels about the advisors */
     let order = utils.shuffle([0, 1, 2]);
 
