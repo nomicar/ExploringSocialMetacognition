@@ -148,7 +148,7 @@ class DotTask extends Governor {
                     warnings: [],
                     stimulusDrawTime: [],
                     stimulusOffTime: [],
-                    fixationDrawTime: []
+                    fixationDrawTime: [],
                 }));
                 if (!isPractice)
                     realId++;
@@ -1225,7 +1225,8 @@ class AdvisorChoice extends DotTask {
                     warnings: [],
                     stimulusDrawTime: [],
                     stimulusOffTime: [],
-                    fixationDrawTime: []
+                    fixationDrawTime: [],
+                    framesDrawTime: [],
                 }));
                 if (!isPractice)
                     realId++;
