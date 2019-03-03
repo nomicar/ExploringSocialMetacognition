@@ -789,16 +789,17 @@
 
     // practice dot task with feedback
     timeline.push(practiceInstructions);
+
     // fill in the remaining non-advisor practice blocks
-    for(let b=0; b < 2; b++) {
+    for(let b=1; b < gov.practiceBlockStructure.length -2; b++) {
         // find trials in this block
         let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
         });
         // add the trials selecting the appropriate procedure for the trial type
-        while(trials.length)
+        while(trials.length){
             timeline.push({timeline: procedures_feedback[trials.shift().type]});
-            trainingTrials.shift();
+            trainingTrials.shift()};
         timeline.push(blockBreak);
     }
     timeline.pop(); // remove last break screen
@@ -809,23 +810,22 @@
         timeline.push(noFeedbackInstructions);
     }
     // // practice with information choice
-    for(let b=2; b < gov.practiceBlockStructure.length; b++) {
+    for(let b=0; b < gov.practiceBlockStructure.length-1; b++) {
         // find trials in this block
         let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
         });
-        if(trials != null && trials.length > 0) {
-            // add the trials selecting the appropriate procedure for the trial type
-            while (trials.length) {
-                if (feedbackCondition === 1) {
-                    timeline.push({timeline: procedures_feedback[trials.shift().type]});
-                } else if (feedbackCondition === 0) {
-                    timeline.push({timeline: procedures[trials.shift().type]});
+        // add the trials selecting the appropriate procedure for the trial type
+        while (trials.length) {
+            if (feedbackCondition === 1) {
+                timeline.push({timeline: procedures_feedback[trials.shift().type]});
+            } else if (feedbackCondition === 0) {
+                timeline.push({timeline: procedures[trials.shift().type]});
                 }
             }
             timeline.push(blockBreak);
-        }
     }
+
     timeline.push(finalInstructions);
 
 // real experiment
