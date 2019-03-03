@@ -184,10 +184,10 @@
         ],
         practiceBlockStructure: [
             {
-                [trialTypes.catch]: 2 //intro trials
+                [trialTypes.catch]: 12 //Into trials + First dot task training block
             },
             {
-                [trialTypes.catch]: 10 //First dot task training block
+                [trialTypes.catch]: 12 //Into trials + First dot task training block
             },
             {
                 [trialTypes.catch]: 10 //Second dot task training block
@@ -791,7 +791,7 @@
     timeline.push(practiceInstructions);
 
     // fill in the remaining non-advisor practice blocks
-    for(let b=1; b < gov.practiceBlockStructure.length -2; b++) {
+    for(let b=0; b < gov.practiceBlockStructure.length -1; b++) {
         // find trials in this block
         let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
@@ -810,7 +810,7 @@
         timeline.push(noFeedbackInstructions);
     }
     // // practice with information choice
-    for(let b=0; b < gov.practiceBlockStructure.length-1; b++) {
+    for(let b=0; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
         let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
