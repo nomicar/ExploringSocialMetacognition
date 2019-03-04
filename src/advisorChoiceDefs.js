@@ -1135,7 +1135,7 @@ class AdvisorChoice extends DotTask {
         let blockCount = this.blockStructure.length * this.blockCount; //number of subblocks: multiply subblock num by main blocks to get total subblock number
         let practiceBlockCount = this.practiceBlockStructure.length;
         // determine where advisor option appears for each block
-        let advisorAbove = utils.shuffleShoe([1, 0], (blockCount+practiceBlockCount)/2);
+        let advisorAbove = utils.shuffleShoe([1, 0], blockCount/2);
 
         // determine if it's a feedback block
         // add feedback on practice blocks without advisor. For blocks with advice (feedback and experimental),
@@ -1210,7 +1210,7 @@ class AdvisorChoice extends DotTask {
                     advisor0id,
                     advisor1id,
                     choice,
-                    advisorAbove: advisorAbove[b],
+                    advisorAbove: isPractice ? 0: advisorAbove[b-practiceBlockCount],
                     trialDifficulty: isPractice ? 2 : trialDifficulty[realId],
                     changes,
                     answer: [NaN, NaN],
@@ -1410,7 +1410,7 @@ class AdvisorChoice extends DotTask {
         choices.push(stimDiv);
 
         // check if advisor option is above or below and display options accordingly
-        if(this.currentTrial.advisorAbove === false)
+        if(this.currentTrial.advisorAbove === 0)
             choices = [choices[1], choices[0]];
 
         // choices.splice(1, 0, display_element.appendChild(document.createElement('p')));
