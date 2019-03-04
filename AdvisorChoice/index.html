@@ -187,9 +187,6 @@
                 [trialTypes.catch]: 12 //Into trials + First dot task training block
             },
             {
-                [trialTypes.catch]: 12 //Into trials + First dot task training block
-            },
-            {
                 [trialTypes.catch]: 10 //Second dot task training block
             },
             {
@@ -276,6 +273,8 @@
         "The practice will be divided into two blocks, with a break screen separating them. </p>" +
         "<p>Please try and be as accurate as possible in judging which box has more dots and in" +
         " reporting your confidence.</p>" +
+        "<p> Please remember that after you've made your decision you'll see the dots in the correct box " +
+        "reappear briefly, providing feedback as to whether your decision was correct. </p> " +
         "<p>To begin the practice, press 'next'.</p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
@@ -312,7 +311,8 @@
     const noFeedbackInstructions = {
         type: 'instructions',
         pages: ["<p>Please note that from now on you will not receive feedback after every trial "+
-        "(i.e. the dots will no longer reappear in the correct box after you respond). </p>"],
+        "(i.e. the dots will no longer reappear in the correct box after you respond). Instead, the two " +
+        "empty boxes will flash briefly on the screen between trials. </p>"],
         show_clickable_nav: true,
         on_load: ()=>gov.drawProgressBar(),
         on_finish: (trial)=>gov.storeMiscTrialData(trial)
@@ -802,7 +802,6 @@
             trainingTrials.shift()};
         timeline.push(blockBreak);
     }
-    timeline.pop(); // remove last break screen
 
     // Information choice instructions
     timeline.push(infoChoiceInstructions);
@@ -810,7 +809,7 @@
         timeline.push(noFeedbackInstructions);
     }
     // // practice with information choice
-    for(let b=0; b < gov.practiceBlockStructure.length; b++) {
+    for(let b=2; b < gov.practiceBlockStructure.length; b++) {
         // find trials in this block
         let trials = utils.getMatches(trainingTrials, function(trial) {
             return trial.block === b;
