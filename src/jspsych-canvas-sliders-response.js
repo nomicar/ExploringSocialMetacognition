@@ -159,7 +159,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
                 type: jsPsych.plugins.parameterType.HTML_STRING,
                 pretty_name: 'Require change warning',
                 default: ['<span style="color: red;">'+
-                'To continue please report which box has more dots using scale.'
+                'To continue please report which box has more dots using the scale.'
                 +'</span>'],
                 array: true,
                 description: 'HTML to display when not enough sliders have been '+
