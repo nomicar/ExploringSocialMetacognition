@@ -1,7 +1,8 @@
 /**
  * Exploring Social Metacognition - data processing
  * Matt Jaquiery, Feb 2018
- *
+ * Nomi Carlebach, Feb 2019
+ * Commented out unneeded variables and added new onws
  */
 
 "use strict";
@@ -12,23 +13,17 @@ export default function processData(data) {
     // Data about the participant
     let participantData = {
         id: data.participantId,
-        groupId: typeof data.groupId === 'undefined'? null : data.groupId,
         blockCount: data.blockCount,
-        blockLength: data.blockLength,
-        catchPerBlock: data.blockStructure[0],
-        forcePerBlock: data.blockStructure[1],
-        choicePerBlock: data.blockStructure[2],
-        practiceBlockLength: data.practiceBlockLength,
-        practiceCatchPerBlock: data.practiceBlockStructure[0],
-        practiceForcePerBlock: data.practiceBlockStructure[1],
-        practiceChoicePerBlock: data.practiceBlockStructure[2],
         difficultyStep: data.difficultyStep,
         dotCount: data.dotCount,
         preTrialInterval: data.preTrialInterval,
+        fixationDuration: data.fixationDuration,
         preStimulusInterval: data.preStimulusInterval,
         stimulusDuration: data.stimulusDuration,
         feedbackDuration: data.feedbackDuration,
-        changeDuration: data.changeTime,
+        adviceDuration: data.adviceDuration,
+        secondStimulusDuration: data.secondStimulusDuration,
+        feedbackCondition: data.feedbackCondition,
         timeStart: data.timeStart,
         timeEnd: data.timeEnd,
         experimentDuration: data.timeEnd - data.timeStart
@@ -92,22 +87,13 @@ function flattenTrialData(trial, id) {
     out.type = trial.type;
     out.typeName = trial.typeName;
     out.dotDifference = trial.dotDifference;
+    out.dotsLow = trial.dotsLow;
+    out.dotsHigh = trial.dotsHigh;
     out.correctAnswer = trial.whichSide;
     out.initialAnswer = trial.answer[0];
     out.finalAnswer = trial.answer[1];
     out.initialConfidence = trial.confidence[0];
     out.finalConfidence = trial.confidence[1];
-    out.confidenceCategory = trial.confidenceCategory;
-    if(trial.choice !== null) {
-        out.hasChoice = !!trial.choice.length;
-        out.choice0 = trial.choice.length? trial.choice[0] : null;
-        out.choice1 = trial.choice.length? trial.choice[1] : null;
-    } else {
-        out.hasChoice = null;
-        out.choice0 = null;
-        out.choice1 = null;
-    }
-
     out.advisorId = trial.advisorId;
     out.advisorAbove = trial.advisorAbove;
     out.resawStimulus = trial.resawStimulus;
@@ -116,49 +102,35 @@ function flattenTrialData(trial, id) {
     if (trial.advice !== null) {
         out.adviceSide = trial.advice.side;
         out.adviceString = trial.advice.string;
+        out.adviceCorrect = trial.advice.side === trial.whichSide;
     }
     else {
         out.adviceSide = null;
         out.adviceString = null;
+        out.adviceCorrect = null;
     }
-    // and for individual advisors in the dual advice paradigm
-    for(let i = 0; i < 2; i++) {
-        let index = 'advisor' + i.toString();
-        out[index + 'id'] = trial[index + 'id'];
-        if(trial[index + 'advice'] === null) {
-            out[index + 'adviceSide'] = null;
-            out[index + 'agrees'] = null;
-            out[index + 'adviceString'] = null;
-        } else {
-            out[index + 'adviceSide'] = trial[index + 'advice'].side;
-            out[index + 'agrees'] = trial[index + 'agrees'];
-            out[index + 'adviceString'] = trial[index + 'adviceString'];
-        }
-    }
-    out.defaultAdvisor = trial.defaultAdvisor;
-
     out.feedback = trial.feedback;
     out.grid = sha1.sha1(JSON.stringify(trial.grid)); // store the hash of the grid
-    out.stimulusParent = trial.stimulusParent;
-    out.repeatRejection = trial.repeatRejection;
     out.warnings = trial.warnings.join("\n");
     // timings
     if (trial.pluginResponse.length > 0) {
         // initial decision
         out.timeInitialStart = trial.pluginResponse[0].startTime;
         out.timeInitialFixation = trial.fixationDrawTime[0];
+        out.timeInitialFrames = trial.framesDrawTime[0];
         out.timeInitialStimOn = trial.stimulusDrawTime[0];
         out.timeInitialStimOff = trial.pluginResponse[0].startTime + trial.pluginResponse[0].stimulusOffTime;
         out.timeInitialResponse = trial.pluginResponse[0].startTime + trial.pluginResponse[0].rt;
         if (trial.pluginResponse.length === 3) {
             // advice and final decision
             // advice
-            out.durationAdvisorChoice = trial.pluginResponse[1].choiceTime;
+            out.durationinfoChoice = trial.pluginResponse[1].choiceTime;
             out.durationAdviceDuration = trial.pluginResponse[1].adviceTime;
             // final decision
             out.timeFinalStart = trial.pluginResponse[2].startTime;
-            out.timeFinalFixation = trial.fixationDrawTime[0];
-            out.timeFinalStimOn = trial.stimulusDrawTime[0];
+            out.timeFinalFixation = trial.fixationDrawTime[1];
+            out.timeFinalFrames = trial.framesDrawTime[1];
+            out.timeFinalStimOn = trial.stimulusDrawTime[1];
             out.timeFinalStimOff = trial.pluginResponse[2].startTime + trial.pluginResponse[2].stimulusOffTime;
             out.timeFinalResponse = trial.pluginResponse[2].startTime + trial.pluginResponse[2].rt;
         }
@@ -178,12 +150,9 @@ function flattenAdvisorData(data, id) {
     out.participantId = id;
     out.id = data.id;
     out.adviceType = data.adviceType;
-    out.name = data.name;
+    out.advisorAccuracy = data.advisorAccuracy;
     out.portraitSrc = data.portraitSrc;
-    out.voiceId = data.voice.id;
     out.styleClass = data.styleClass;
-    out.advisorClass = data instanceof Cue? "Cue" : "Advisor";
-    out.groupId = data.groupId;
     return out;
 }
 
