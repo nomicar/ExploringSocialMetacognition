@@ -595,27 +595,27 @@ class Advisor {
                 };
             // Cases for information choice experiment: Advisers differ in accuracy
             // and their responses do not depend on subject accuracy
-            case 9: // 50% accuracy
+            case 50: // 50% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 0.5 : 0.5;
                 };
-            case 10: // 60% accuracy
+            case 60: // 60% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 0.6 : 0.4;
                 };
-            case 11: // 70% accuracy
+            case 70: // 70% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 0.7 : 0.3 ;
                 };
-            case 12: // 80% accuracy
+            case 80: // 80% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 0.8 : 0.2;
                 };
-            case 13: // 90% accuracy
+            case 90: // 90% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 0.9 : 0.1;
                 };
-            case 14: // 100% accuracy
+            case 100: // 100% accuracy
                 return function(judgeCorrect) {
                     return judgeCorrect ? 1 : 0 ;
                 };
@@ -627,6 +627,7 @@ class Advisor {
                 };
         }
     }
+
 
     /**
      * Return a string describing policy of agreementType
@@ -894,8 +895,9 @@ class Trial {
         this.framesDrawTime = typeof args.framesDrawTime === 'undefined'? null : args.framesDrawTime;
         this.pluginResponse = typeof args.pluginResponse === 'undefined'? [] : args.pluginResponse;
         this.stimulusParent = typeof args.stimulusParent === 'undefined'? null : args.stimulusParent;
-
         this.repeatRejection = typeof args.repeatRejection === 'undefined'? null : args.repeatRejection;
+        this.dotsLow = typeof args.dotsLow === 'undefined'? null : args.dotLow;
+        this.dotsHigh = typeof args.dotsHigh === 'undefined'? null : args.dotHigh;
     }
 
     /**
