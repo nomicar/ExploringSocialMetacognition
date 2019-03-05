@@ -63,7 +63,7 @@
         10 = 4/5 accyracy rate
         11 = 9/10 accuracy rate
     */
-    let adviceTypes = (utils.shuffle([10,11,12,13,14]));
+    let adviceTypes = (utils.shuffle([60,70,80,90,100]));
     let advisorIdDeck = utils.shuffle(utils.getSequence(1,6));
     let advisorVoiceDeck = utils.shuffle(utils.getSequence(1,6));
     let advisorPicDeck = utils.shuffle(utils.getSequence(1,6));
@@ -87,11 +87,11 @@
 
     //create advisors
     if(advisorClass === "Advisor") {
-        practiceAdvisor0 = new Advisor(advisorIdDeck[0], 12,
+        practiceAdvisor0 = new Advisor(advisorIdDeck[0], 80,
             advisorVoiceDeck[0], advisorPicDeck[0],
             styleClassDeck[0].toString(), practiceArgs);
 
-        practiceAdvisor1 = new Advisor(advisorIdDeck[0], 12,
+        practiceAdvisor1 = new Advisor(advisorIdDeck[0], 80,
             advisorVoiceDeck[0], advisorPicDeck[0],
             styleClassDeck[0].toString(), practiceArgs);
 
@@ -184,10 +184,10 @@
         ],
         practiceBlockStructure: [
             {
-                [trialTypes.catch]: 12 //Into trials + First dot task training block
+                [trialTypes.catch]: 3 //Into trials + First dot task training block
             },
             {
-                [trialTypes.catch]: 10 //Second dot task training block
+                [trialTypes.catch]: 3 //Second dot task training block
             },
             {
                 [trialTypes.infoChoice]: 6 // Information choice training block
@@ -195,7 +195,7 @@
         ],
         preTrialInterval: 100,
         fixationDuration: 500,
-        preStimulusInterval: 600, //this includes the fixationduration(400) and time after squares appear and before stim (100ms)
+        preStimulusInterval: 600, //this includes the fixationduration(500) and time after squares appear and before stim (100ms)
         stimulusDuration: 150,
         feedbackDuration: 300,
         adviceDuration: 1000,
