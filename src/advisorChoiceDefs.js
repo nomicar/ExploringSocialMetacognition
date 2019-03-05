@@ -62,7 +62,9 @@ class DotTask extends Governor {
      * @param {int} [args.preTrialInterval] - delay before each trial begins
      * @param {int} [args.preStimulusInterval] - fixation delay before the stimulus is displayed
      * @param {int} [args.stimulusDuration] - duration the dot stimulus is displayed
-     * @param {int} [args.feedbackDuration] - duration of the feedback screen     *
+     * @param {int} [args.feedbackDuration] - duration of the feedback screen
+     * @param {int} [args.fixationDuration] - duration of the fixation before boxes appear on screen
+     * @param {int} [args.adviceDuration] - duration advice appears on screen
      */
     constructor(args = {}) {
         super(args);
@@ -149,6 +151,8 @@ class DotTask extends Governor {
                     stimulusDrawTime: [],
                     stimulusOffTime: [],
                     fixationDrawTime: [],
+                    dotsLow:[],
+                    dotsHigh:[]
                 }));
                 if (!isPractice)
                     realId++;
@@ -189,6 +193,8 @@ class DotTask extends Governor {
                     break;
             }
 
+            this.currentTrial.dotsLow = low;
+            this.currentTrial.dotsHigh = high;
             let dots = this.currentTrial.whichSide === 0 ? [high, low] : [low, high];
             this.currentTrial.grid = new DoubleDotGrid(dots[0], dots[1], {
                 gridWidth: 20,
