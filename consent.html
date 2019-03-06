@@ -37,70 +37,83 @@
     </style>
 </head>
 <body>
-    <div id="banner">
-        <div class="left">
-            <a href="https://www.ox.ac.uk/"><img id="oxLogo" class="logo" src="assets/image/oxweb-logo.gif" alt="University of Oxford"/></a>
+<div id="banner">
+    <div class="left">
+        <a href="https://www.ox.ac.uk/"><img id="oxLogo" class="logo" src="assets/image/oxweb-logo.gif" alt="University of Oxford"/></a>
+    </div>
+    <div class="center">
+        <div class="middle">
+            <section id="title">The Effects of Performance Judgements on Decision Making</section>
+            <section id="subtitle">Participant information sheet</section>
+            <section id="lastupdate">updated January 2019</section>
         </div>
-        <div class="center">
-            <div class="middle">
-                <section id="title">Exploring Social Metacognition</section>
-                <section id="subtitle">Participant information</section>
-                <section id="lastupdate">updated 13 June 2018</section>
+    </div>
+    <div class="right">
+        <a href="https://www.oxacclab.org/"><img id="accLogo" class="logo" src="assets/image/acclab.jpg" alt="Attention and Cognitive Control Lab"/></a>
+        <a href="https://www.psy.ox.ac.uk/"><img id="epLogo" class="logo" src="assets/image/ep-logo-with-msd.jpg" alt="Department of Experimental Psychology"/></a>
+    </div>
+</div>
+<div id="panel">
+    <div id="window">
+        <section id="intro">
+            <p><span class="lead">Welcome</span>. Below you will find information that will help you to decide whether to take part in this study.</p>
+        </section>
+        <section id="general information">
+            <p><span class="lead">General information</span>. This study investigates the effects of performance judgements such as confidence on how people make subsequent decisions and learn.
+                By further understanding the processes underlying decision making and learning we aim to add to the growing knowledge of human behaviour and cognition.</p>
+            <p> We appreciate your interest in participating in this online survey. You have been invited to take part in this research because you have indicated that
+                you might be interested in participating, and you are currently (i) aged 18-40, (ii) fluent English speaking, (iii) have normal or corrected-to- normal vision, (iv) neurologically healthy,
+                and (v) not on any medication with psychoactive effects. Please read through these terms before agreeing to participate by ticking the ‘yes’ box below. You may ask any questions before taking
+                part by contacting the researcher (contact us). </p>
+            <p> We (the Attention and Cognitive Control Lab at the Department of Experimental Psychology, University of Oxford) are investigating how performance judgements (e.g. confidence levels)
+                are used in the process of decision making. A computer-based task involving simple discrimination or categorization judgments will be used. During the computer-based experiment, you will
+                be presented with visual and/or auditory stimuli, and will then be asked to make judgments about them or about your performance in the task, as per the instructions given before the task.
+                You may also be asked to answer some questions relevant to the task. The study will take approximately 1 hour. </p>
+        </section>
+        <section id="taking part">
+            <p><span class="lead">Do I have to take part?</span> Please note that your participation is voluntary. You may withdraw at any point during the questionnaire for any reason, before submitting your
+                answers, by pressing the ‘Exit’ button / closing the browser. However, we are only able to reimburse participants who complete the full survey.</p>
+        </section>
+        <section id="data use">
+            <p><span class="lead">How will your data be used?</span> We collect data on your performance during the study. We will make no attempt to identify you, or link your performance to any personal data we hold.
+                Your data will be stored in a password-protected file and may be used in academic publications. Your IP address will not be stored.</p>
+        </section>
+        <section id="data acess">
+            <p><span class="lead">Who will have access to your data?</span> Prolific is the data controller with respect to your personal data and, as such, will determine how your personal data is used. Please see their
+                privacy notice <a class="link" href="https://www.prolific.ac/assets/docs/Prolific_privacy-policy.pdf" target="_blank">here <i class="fas fa-external-link-alt fa-xs"></i></a>. Prolific will share only fully
+                anonymised data with the University of Oxford, for the purposes of research.</p>
+
+            <p>We would like your permission to use your anonymised data in future studies, and to share data with other researchers (e.g. in online databases). <br>
+                This study is for a DPhil project. The principal researcher is Naomi Carlebach, who is attached to the Department of Experimental Psychology at the University of Oxford.
+                This project is being completed under the supervision of Professor Nick Yeung.<br> This project has been reviewed by, and received ethics clearance through, the University of Oxford Central University Research Ethics Committee [reference: R61894/RE001].</p>
+        </section>
+        <section id="contact">
+            <p><span class="lead">What if there is a problem?</span> If you have a concern about any aspect of this project, please speak to the relevant researcher  <a class="mailto" href="mailto:naomi.carlebach@psy.ox.ac.uk?subject=Effects of Performance Judgements query">Naomi Carlebach [naomi.carlebach@psy.ox.ac.uk]</a>)
+                or her supervisor <a class="mailto" href="mailto:nicholas.yeung@psy.ox.ac.uk?subject=Effects of Performance Judgements query">Prof Nick Yeung [nicholas.yeung@psy.ox.ac.uk]</a>, who will do their best to answer your query. The researchers should acknowledge your concern within 10 working days and give you an indication of how they intend
+                to deal with it. If you remain unhappy or wish to make a formal complaint, please contact the chair of the Research Ethics Committee at the University of Oxford (Chair, Medical Sciences Inter-Divisional Research Ethics Committee;
+                Email: <a class="mailto" href="mailto:ethics@medsci.ox.ac.uk">ethics@medsci.ox.ac.uk</a>; Address: Research Services, University of Oxford, Wellington Square, Oxford OX1 2JD).  The chair will seek to resolve the matter in a reasonably expeditious manner.</p>
+        </section>
+        <section id="age">
+            <p>Please note that you may only participate in this survey if you are 18 years of age or over.</p>
+        </section>
+    </div>
+    <div id="foot">
+        <form onsubmit="checkForm();return false">
+            <div class="required">
+                I certify that I am 18 years of age or over. <input class="big mandatory" type="checkbox"/>
             </div>
-        </div>
-        <div class="right">
-            <a href="https://www.oxacclab.org/"><img id="accLogo" class="logo" src="assets/image/acclab.jpg" alt="Attention and Cognitive Control Lab"/></a>
-            <a href="https://www.psy.ox.ac.uk/"><img id="epLogo" class="logo" src="assets/image/ep-logo-with-msd.jpg" alt="Department of Experimental Psychology"/></a>
-        </div>
+            <div class="required">
+                If you have read the information above and agree to participate with the understanding that the data (including any personal data)
+                you submit will be processed accordingly, please check the relevant box below to get started.<br>
+                <input class="big mandatory" type="checkbox"/>
+            </div>
+
+            <div>
+                <input class="big submit" type="submit" value="Yes, I agree to take part"/>
+            </div>
+        </form>
     </div>
-    <div id="panel">
-        <div id="window">
-            <section id="intro">
-                <p><span class="lead">Welcome</span>. Below you will find information that will help you to decide whether to take part in this study. If you have questions about anything, please feel free to contact us.</p>
-            </section>
-            <section id="purpose">
-                <p><span class="lead">This study</span> aims to discover how your knowledge of your own thoughts affects your social world, and how your social world affects your thoughts. This will help us understand how social networks are constructed, how information flows within them, and how they affect people's lives.</p>
-            </section>
-            <section id="procedure">
-                <p><span class="lead">In the study</span> you will perform computer-based tasks in which you have to make decisions and use different types of advice. At various points in the study you will be asked to fill in questionnaires about yourself or your advisors. The study will take approximately 1 hour.</p>
-            </section>
-            <section id="withdraw">
-                <p><span class="lead">You are free</span> to withdraw from the study at any point. To do so, simply close your browser tab. There will be no penalty for doing so. Data will not be stored until the study is complete. Once the study is complete, we are unlikely to be able to remove data from analysis.</p>
-            </section>
-            <section id="privacy">
-                <p><span class="lead">We collect data</span> on your performance during the study. Upon completion of the study you will be given feedback on your performance, and provided with a link to retrieve this feedback. You may share this link at your discretion. We will make no attempt to identify you, or link your performance to any personal data we hold. Anonymised data and results from the study will form part of a doctoral thesis, will be made accessible to the wider scientific community, and may be published in peer-reviewed scientific journals and presented at scientific conferences.</p>
-                <p><span class="lead">Personal data</span>, specifically IP addresses, are logged by the server as part of the normal process of providing secure and stable service. The University of Oxford is the data controller with respect to these data. Your personal data are stored separately and will not be linked to your performance. Your personal data will not be shared, and only responsible members of the University of Oxford will be allowed access for monitoring, audit, or server administration purposes.</p>
-            </section>
-            <!--section id="cookies">
-                <p><span class="lead">We use cookies</span> to help track participation (so we don't have to record things our end). For more information about cookies, see <a class="link" href="https://ico.org.uk/your-data-matters/online/cookies/" target="_blank">ico.org.uk <i class="fas fa-external-link-alt fa-xs"></i></a>.</p>
-            </section-->
-            <section id="payment">
-                <p><span class="lead">Payment rates</span> and conditions, where applicable, will have been made clear previously. If you are unsure about payment, please contact us.</p>
-            </section>
-            <section id="oversight">
-                <p><span class="lead">Ethical approval</span> for this study has been granted by the Oxford Central University Research Ethics Committee (CUREC), reference R55382_RE001. There are no significant risks or benefits to you, although the data will contribute to scientific discovery.</p>
-            </section>
-            <section id="contact">
-                <p><span class="lead">If you have a concern</span> about any aspect of this project, please speak to the researcher, <a class="mailto" href="mailto:matt.jaquiery@psy.ox.ac.uk?subject=Exploring Social Metacognition query">Matt Jaquiery [matt.jaquiery@psy.ox.ac.uk]</a>, or the principal investigator, <a class="mailto" href="mailto:nicholas.yeung@psy.ox.ac.uk?subject=Exploring Social Metacognition query">Prof Nick Yeung [nicholas.yeung@psy.ox.ac.uk]</a>, who will do their best to answer your query. The researcher should acknowledge your concern within 10 working days and give you an indication of how they intend to deal with it. If you remain unhappy or wish to make a formal complaint, please contact the Chair of the Research Ethics Committee at the University of Oxford: Chair, Medical Sciences Inter-Divisional Research Ethics Committee; Email: <a class="mailto" href="mailto:ethics@medsci.ox.ac.uk">ethics@medsci.ox.ac.uk</a>; Address: Research Services, University of Oxford, Wellington Square, Oxford OX1 2JD.</p>
-            </section>
-            <section id="funding">
-                <p><span class="lead">The study is funded</span> by the <a class="link" href="https://www.oxacclab.org/" target="_blank">Attention and Cognitive Control Laboratory <i class="fas fa-external-link-alt fa-xs"></i></a> at Oxford University, and by grant #661552 from the <a class="link" href="https://mrc.ukri.org/" target="_blank">Medical Research Council <i class="fas fa-external-link-alt fa-xs"></i></a>.</p>
-            </section>
-        </div>
-        <div id="foot">
-            <form onsubmit="checkForm();return false">
-                <div class="required">
-                    I have read the above information and understand that I can cease participation at any time <input class="big mandatory" type="checkbox"/>
-                </div>
-                <div class="required">
-                    I am 18 years old or older <input class="big mandatory" type="checkbox"/>
-                </div>
-                <div>
-                    <input class="big submit" type="submit" value="I am willing to participate"/>
-                </div>
-            </form>
-        </div>
-    </div>
+</div>
 </body>
 <script type="text/javascript">
     // Work out where we're supposed to be going afterwards
@@ -121,7 +134,7 @@
     let ps = document.querySelectorAll('p');
     for(let i=0; i<ps.length; i++) {
         let p = ps[i];
-        p.innerHTML = p.innerHTML.replace("contact us", '<a class="mailto" href="mailto:matt.jaquiery@psy.ox.ac.uk?subject=' + study + ' Query">contact us</a>');
+        p.innerHTML = p.innerHTML.replace("contact us", '<a class="mailto" href="mailto:naomi.carlebach@psy.ox.ac.uk?subject=' + study + ' Query">contact us</a>');
     }
 
     function checkForm() {
