@@ -670,6 +670,18 @@ class Advisor {
                 return "<em>High agreement</em>";
             case 8:
                 return "<em>Low agreement</em>";
+            case 50:
+                return "<em>50% accurate</em>";
+            case 60:
+                return "<em>60% accurate</em>";
+            case 70:
+                return "<em>70% accurate</em>";
+            case 80:
+                return "<em>80% accurate</em>";
+            case 90:
+                return "<em>90% accurate</em>";
+            case 100:
+                return "<em>100% accurate</em>";
         }
     }
 
