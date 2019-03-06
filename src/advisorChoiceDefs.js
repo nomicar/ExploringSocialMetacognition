@@ -1710,16 +1710,8 @@ class AdvisorChoice extends DotTask {
      *
      */
     debriefFormSubmit(form) {
-        let txt = form.querySelector('#debriefManipulationAnswer');
-        if (txt.value.length===0) {
-            txt.style.border = '1px solid red';
-            return;
-        }
         this.debrief = [
-            {
-                question: 'manipulation',
-                answer: txt.value
-            },
+
             {
                 question: 'comment',
                 answer: form.querySelector('#debriefCommentAnswer').value
