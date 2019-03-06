@@ -541,7 +541,7 @@ class advisorChoice extends dotTask {
             "<li><a href='#accuracy'>accuracy</a></li></ul>";
         body.appendChild(nav);
         // Reward link
-        g.completionURL = 'https://app.prolific.ac/submissions/complete?cc=MX5PC2Z4'
+        g.completionURL = 'https://app.prolific.ac/submissions/complete?cc=TWV4RI68'
         if(includePayment !== false) {
             let paymentSection = body.appendChild(document.createElement('section'));
             let paymentDiv = document.createElement('div');
@@ -556,34 +556,12 @@ class advisorChoice extends dotTask {
         let thanksSection = body.appendChild(document.createElement('section'));
         let thanksDiv = document.createElement('div');
         thanksDiv.id = 'thanks';
-        switch(g.experimentCode) {
-            case 'acc':
-                thanksDiv.innerHTML = "<h1>Thank you</h1><p>You have completed the experiment. During the experiment " +
-                    "you had two sets of advisors, and were sometimes able to choose between them. One of these " +
-                    "advisors was about 80% accurate, the other was about 60% accurate.</p>" +
-                    "<p>We suspect that most people will be able to learn that one advisor is better than the other, " +
-                    "even when there is no feedback about whether the final decision is correct. Let's have a look " +
-                    "at how your results and see how you did on the task and whether your choices matched our " +
-                    "prediction.</p>";
-                break;
-            case 'agr':
-                thanksDiv.innerHTML = "<h1>Thank you</h1><p>You have completed the experiment. During the experiment " +
-                    "you had sets of two advisors, and were sometimes able to choose between them. One of these " +
-                    "advisors agreed with you much more often than the other.</p>" +
-                    "<p>We suspect that most people will be able to learn that one advisor is better than the other, " +
-                    "even when there is no feedback about whether the final decision is correct. Let's have a look " +
-                    "at how your results and see how you did on the task and whether your choices matched our " +
-                    "prediction.</p>";
-                break;
-            default:
-                thanksDiv.innerHTML = "<h1>Thank you</h1><p>You have completed the experiment. During the experiment " +
-                    "you had two sets of advisors, and were sometimes able to choose between them. Both of these " +
-                    "advisors are equally accurate on the task, but one agreed with you more often when you are more " +
-                    "confident, while the other agreed with you more often when you were unsure.</p>" +
-                    "<p>We suspect that most people will prefer the advisor who agrees with them more when they are " +
-                    "more confident. Let's have a look at how your results and see how you did on the task and " +
-                    "whether your choices matched our prediction.</p>";
-        }
+        thanksDiv.innerHTML = "<h1>Thank you</h1><p>You have completed the experiment. During the experiment " +
+            "you had 5 different advisors, differing in accuracy. In each trial you were able to choose between" +
+            " getting advice from one of these advisors and seeing the stimulus again.</p>" +
+            "<p>We suspect that most people will try and learn how good the different advisors are, and use this " +
+            "knowledge to decide what type of information they should request. Let's have a look " +
+            "at how your results and see how you did on the task and whether your choices matched our prediction.</p>";
 
         thanksSection.appendChild(thanksDiv);
         let permalinkDiv = thanksDiv.appendChild(document.createElement('div'));
@@ -623,12 +601,10 @@ class advisorChoice extends dotTask {
         let post = utils.round(pre.final[0]*100,1);
         pre = utils.round(pre.initial[0]*100,1);
         accuracyDescription.innerHTML = "<p>The task difficulty changes based on your performance so that we " +
-            "can compare advice-taking properly. Your initial accuracy should be approximately 71%. " +
-            "We expect most people to have higher accuracy after advice than " +
+            "can compare advice-taking properly. We expect most people to have higher accuracy after advice than " +
             "before advice. Your pre-advice accuracy was <strong>"+pre+
             "%</strong>, and your post-advice accuracy " +
-            "was <strong>"+post+"%</strong>. The advisors are programmed to be equally accurate on average, and " +
-            "they should score around 70%.</p>";
+            "was <strong>"+post+"%</strong>.</p>";
         accuracyContainer.appendChild(accuracyDescription);
         let accuracyGraph = document.createElement('div');
         accuracyGraph.id = 'accuracyGraph';
@@ -646,29 +622,28 @@ class advisorChoice extends dotTask {
             group.classList.add('group' + g.groupId.toString());
             group.innerHTML = "You were assigned to group " + g.groupId.toString();
         }
-        for(let aS=0; aS<advisors.length/2; aS++) {
+        for(let a=0; a<advisors.length; a++) {
             let advisorContainer = document.createElement('div');
-            advisorContainer.id = 'advisorContainer' + aS.toString();
+            advisorContainer.id = 'advisorContainer' + a.toString();
             advisorContainer.className = 'advisor-container container';
             advisorSection.appendChild(advisorContainer);
-            for(let a=aS*2; a<aS*2+2; a++) {
-                let advisor = advisors[a];
-                let i = advisor.id;
-                let advisorDiv = advisor.draw(advisorContainer);
-                let statsDiv = document.createElement('div');
-                statsDiv.id = 'advisor'+i+'statsWrapper';
-                statsDiv.className = 'advisor-stats-wrapper';
-                advisorDiv.firstChild.appendChild(statsDiv);
-                // stats
-                let statsContainer = document.createElement('div');
-                statsContainer.id = 'advisor'+i+'statsContainer';
-                statsContainer.className = 'advisor-stats-container';
-                let stats = document.createElement('div');
-                stats.id = 'advisor'+i+'stats';
-                stats.className = 'advisor-stats';
-                let last = statsContainer.appendChild(document.createElement('p'));
-                last.innerHTML= "Agreement profile: " + Advisor.getDescriptionHTML(advisor.adviceType);
-                last.title = Advisor.getDescriptionTitleText(advisor.adviceType);
+            let advisor = advisors[a];
+            let i = advisor.id;
+            let advisorDiv = advisor.draw(advisorContainer);
+            let statsDiv = document.createElement('div');
+            statsDiv.id = 'advisor'+i+'statsWrapper';
+            statsDiv.className = 'advisor-stats-wrapper';
+            advisorDiv.firstChild.appendChild(statsDiv);
+            // stats
+            let statsContainer = document.createElement('div');
+            statsContainer.id = 'advisor'+i+'statsContainer';
+            statsContainer.className = 'advisor-stats-container';
+            let stats = document.createElement('div');
+            stats.id = 'advisor'+i+'stats';
+            stats.className = 'advisor-stats';
+            let last = statsContainer.appendChild(document.createElement('p'));
+            last.innerHTML= "Accuracy rate: " + Advisor.getDescriptionHTML(advisor.adviceType);
+                last.title ="Advisor accuracy";
                 last = statsContainer.appendChild(document.createElement('p'));
                 last.innerHTML = "Chosen: <strong>"+
                     utils.round(advisorChoice.advisorChoiceRate(g.trials, advisor.id)[0]*100,1).toString()+'%</strong>';
@@ -695,7 +670,7 @@ class advisorChoice extends dotTask {
                 graphDiv.id = 'advisor'+i+'graph';
                 graphDiv.className = 'advisor-graph graph';
                 advisorDiv.firstChild.appendChild(graphDiv);
-            }
+
         }
 
         // confidence
