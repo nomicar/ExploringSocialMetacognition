@@ -344,7 +344,7 @@ class Voice {
     static getName(id) {
         // if(id === null)
         //     id = Math.floor(Math.random()*10)+1; // random name from the full list
-        return 'User ' + Math.floor(Math.pow(Math.E, id)).toString();
+        return 'Advisor ' + id.toString();
         // switch(id) {
         //     case 1:
         //         return "Annie";
