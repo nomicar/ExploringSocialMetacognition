@@ -362,6 +362,8 @@ class advisorChoice extends dotTask {
      */
     static advisorAdviceOnTrial(trial, advisorId) {
         switch(trial.type) {
+            case trialTypes.infoChoice:
+                return trial.advisorId === advisorId && trial.resawStimulus ===false ? trial.advice.side : false;
             case trialTypes.force:
             case trialTypes.choice:
             case trialTypes.change:
@@ -503,25 +505,19 @@ class advisorChoice extends dotTask {
     }
 
     /**
-     * Return the proportion of possible choices in which this advisor was chosen
+     * Return the proportion of trials in which this advisor was chosen over see again
      * @param {Trial[]} trials - trial list
      * @param {int} advisorId - id of the candidate advisor
      * @returns {number[]}
      */
     static advisorChoiceRate(trials, advisorId) {
         let choiceTrials = utils.getMatches(trials, function(trial) {
-            switch(trial.type) {
-                case trialTypes.choice:
-                    return trial.choice.indexOf(advisorId) !== -1;
-                case trialTypes.change:
-                    return trial.advisor0id === advisorId || trial.advisor1id === advisorId;
-            }
-            return false;
+            return trial.advisorId === advisorId;
         });
         if(!choiceTrials.length)
             return [NaN];
         let chosenTrials = utils.getMatches(choiceTrials, function(trial) {
-            return trial.advisorId === advisorId;
+            return trial.resawStimulus === false;
         });
         return [chosenTrials.length/choiceTrials.length, chosenTrials.length, choiceTrials.length];
     }
@@ -561,7 +557,7 @@ class advisorChoice extends dotTask {
             " getting advice from one of these advisors and seeing the stimulus again.</p>" +
             "<p>We suspect that most people will try and learn how good the different advisors are, and use this " +
             "knowledge to decide what type of information they should request. Let's have a look " +
-            "at how your results and see how you did on the task and whether your choices matched our prediction.</p>";
+            "at your results and see how you did on the task and whether your choices matched our prediction.</p>";
 
         thanksSection.appendChild(thanksDiv);
         let permalinkDiv = thanksDiv.appendChild(document.createElement('div'));
@@ -600,10 +596,10 @@ class advisorChoice extends dotTask {
         let pre = advisorChoice.accuracySummary(g.trials);
         let post = utils.round(pre.final[0]*100,1);
         pre = utils.round(pre.initial[0]*100,1);
-        accuracyDescription.innerHTML = "<p>The task difficulty changes based on your performance so that we " +
-            "can compare advice-taking properly. We expect most people to have higher accuracy after advice than " +
-            "before advice. Your pre-advice accuracy was <strong>"+pre+
-            "%</strong>, and your post-advice accuracy " +
+        accuracyDescription.innerHTML = "<p>The task difficulty changed based on your performance so that we " +
+            "can compare information seeking properly. We expect most people to have higher accuracy after receiving " +
+            "additional information compared to before. Your initial accuracy was <strong>"+pre+
+            "%</strong>, and your final accuracy after additional information " +
             "was <strong>"+post+"%</strong>.</p>";
         accuracyContainer.appendChild(accuracyDescription);
         let accuracyGraph = document.createElement('div');
@@ -617,11 +613,6 @@ class advisorChoice extends dotTask {
         advisorSection.appendChild(advisorWrapper);
         advisorWrapper.appendChild(document.createElement('h2')).innerHTML =
             '<a href="#top" name="advisors">Advisors</a>';
-        if(typeof g.groupId !== 'undefined' && g.groupId !== null) {
-            let group = advisorWrapper.appendChild(document.createElement('p'));
-            group.classList.add('group' + g.groupId.toString());
-            group.innerHTML = "You were assigned to group " + g.groupId.toString();
-        }
         for(let a=0; a<advisors.length; a++) {
             let advisorContainer = document.createElement('div');
             advisorContainer.id = 'advisorContainer' + a.toString();
@@ -647,7 +638,7 @@ class advisorChoice extends dotTask {
                 last = statsContainer.appendChild(document.createElement('p'));
                 last.innerHTML = "Chosen: <strong>"+
                     utils.round(advisorChoice.advisorChoiceRate(g.trials, advisor.id)[0]*100,1).toString()+'%</strong>';
-                last.title = 'How many times did you select this advisor when you had a choice?';
+                last.title = 'Percentage of times you selected this advisor over seeing the stimulus';
                 last = statsContainer.appendChild(document.createElement('p'));
                 last.innerHTML = "Influence: <strong>"+
                     utils.round(advisorChoice.getTotalInfluence(g.trials, advisor.id),1).toString()+'</strong>';
@@ -669,7 +660,7 @@ class advisorChoice extends dotTask {
                 let graphDiv = document.createElement('div');
                 graphDiv.id = 'advisor'+i+'graph';
                 graphDiv.className = 'advisor-graph graph';
-                advisorDiv.firstChild.appendChild(graphDiv);
+                //advisorDiv.firstChild.appendChild(graphDiv);
 
         }
 
@@ -708,10 +699,6 @@ class advisorChoice extends dotTask {
         // fill in graphs
         advisorChoice.getAccuracyGraph(g, accuracyGraph);
         advisorChoice.getConfidenceFeedback(g, confidenceGraph);
-        advisors.forEach(function (advisor) {
-            let graphDiv = document.querySelector('#advisor'+advisor.id+'graph');
-            advisorChoice.getQuestionnaireGraph(g, advisor.id, graphDiv);
-        })
     }
 
     /**
@@ -798,20 +785,22 @@ class advisorChoice extends dotTask {
         // Create the data table.
         let raw = [
             ['Person', 'Accuracy', { role: 'style' }],
-            ['You (pre advice)', judgeAcc.initial[0]*100, 'black'],
-            ['You (post advice)', judgeAcc.final[0]*100, 'grey']
+            ['Initial response', judgeAcc.initial[0]*100, 'black'],
+            ['Final response', judgeAcc.final[0]*100, 'grey']
         ];
 
+        /** Uncomment to display advisors accuracies
         advisors.forEach(function(advisor) {
             // empirically fetch the computed colour for the advisor
             let elm = document.querySelector('.jspsych-jas-present-advice-image.' + advisor.styleClass);
             let bg = window.getComputedStyle(elm).backgroundColor;
             raw.push([
-                advisor.name,
+                'Advisor ' + id.toString(),
                 advisorChoice.advisorAccuracy(input.trials, advisor.id)[0]*100,
                 bg
             ]);
         });
+         */
         let data = google.visualization.arrayToDataTable(raw);
         let options = {
             title: 'Dot-task accuracy',
