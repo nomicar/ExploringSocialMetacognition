@@ -485,11 +485,14 @@ class advisorChoice extends dotTask {
 
     static adviceAnswerChanges(trials, advisorId) {
         let advisorChangedTrials = utils.getMatches(trials, function (trial) {
+            //check if advice was viewed on this trial and return false if not
             if (advisorChoice.advisorAdviceOnTrial(trial, advisorId) === false)
                 return false;
+            //If advice was viewed check if the participant didn't change their answer
             if (trial.answer[0] === trial.answer[1])
                 return false;
-            return advisorChoice.isAgreeingAdvice(trial, advisorId);
+            // return only trials where advisor didn't agree
+            return !(advisorChoice.isAgreeingAdvice(trial, advisorId));
         });
 
         if (advisorChangedTrials.length === 0)
