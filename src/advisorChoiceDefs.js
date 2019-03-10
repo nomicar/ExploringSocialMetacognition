@@ -187,8 +187,8 @@ class DotTask extends Governor {
                     high = this.dotCount + this.dotDifference;
                     break;
                 case 3: //hard trials
-                    low = this.dotCount - this.dotDifference/3;
-                    high = this.dotCount + this.dotDifference/3;
+                    low = Math.round(this.dotCount - this.dotDifference/3);
+                    high = Math.round(this.dotCount + this.dotDifference/3);
 
                     break;
             }
@@ -1371,7 +1371,7 @@ class AdvisorChoice extends DotTask {
         }
     }
     /**
-     * Information choice function called by the jspsych-jas-present-advice-choice plugin.
+     * Information choice function called by the jspsych-jas-present-info-choice plugin.
      * Offer a choice of information (advice or stimulus) by drawing clickable portraits.
      *
      * @param {HTMLElement} display_element - element within which to display the choices
