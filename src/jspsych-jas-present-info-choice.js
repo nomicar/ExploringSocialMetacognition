@@ -66,7 +66,10 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
             choiceTime: null,
             changeTimes: [],
             choice: null,
-            totalTime: null
+            choiceRT:null,
+            totalTime: null,
+            displayAdviceTime: null,
+            displayStimTime: null
         };
 
         // start timing
@@ -99,7 +102,8 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
             if (response.choice === -1)
                 end_trial();
             else
-                response.choiceTime = performance.now() - start_time;
+                response.choiceTime = performance.now();
+                response.choiceRT = performance.now() - start_time;
 
             let html = '';
             let containerId = '';
@@ -120,6 +124,7 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
                 display_element.innerHTML = html;
 
                 response.image = trial.displayImageFunction(response.choice, containerId);
+                response.displayAdviceTime = performance.now();
                 // short out if the trial.displayImageFunction returned '-1'
                 if (response.image === -1) {
                     end_trial();
