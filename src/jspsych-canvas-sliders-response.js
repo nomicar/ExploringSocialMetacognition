@@ -437,6 +437,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
         let response = {
             startTime: performance.now(),
             rt: null,
+            timeResponse: null,
             response: null,
             stimulus_properties: null
         };
@@ -532,6 +533,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
                 return;
             }
             // measure response time
+            response.timeResponse = performance.now();
             response.rt = performance.now() - response.startTime;
             let answers = [];
             for (let i=0; i<sliders.length; i++) {
@@ -594,7 +596,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
         if (trial.stimulus_duration !== null) {
             jsPsych.pluginAPI.setTimeout(function() {
                 let result = stimOffFun(display_element.querySelector('#jspsych-canvas-sliders-response-stimulus'));
-                response.stimulusOffTime = performance.now() - response.startTime;
+                response.stimulusOffTime = performance.now();
                 response.stimulusOffFunReturned = result;
             }, trial.stimulus_duration);
         }
