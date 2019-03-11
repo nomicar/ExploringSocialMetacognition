@@ -63,18 +63,21 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
 
         // store response
         let response = {
+            startTime: null ,
             choiceTime: null,
             changeTimes: [],
             choice: null,
             choiceRT:null,
             totalTime: null,
             displayAdviceTime: null,
-            displayStimTime: null
+            displayStimTime: null,
+            infoDuration: null,
+            infoOff: null
         };
 
         // start timing
         let start_time = performance.now();
-
+        response.startTime = start_time;
         if (typeof trial.choiceFunction === 'undefined')
             console.error('Required parameter "choiceFunction" missing in jspsych-jas-present-info-choice');
 
@@ -160,7 +163,8 @@ jsPsych.plugins["jspsych-jas-present-info-choice"] = (function() {
         // function to end trial when it is time
         function end_trial() {
             response.totalTime = performance.now() - start_time;
-            response.adviceTime = response.totalTime - response.choiceTime;
+            response.infoDuration = performance.now() - response.choiceTime;
+            response.infoOff = performance.now();
 
             // kill any remaining setTimeout handlers
             jsPsych.pluginAPI.clearAllTimeouts();
