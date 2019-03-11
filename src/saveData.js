@@ -119,24 +119,44 @@ function flattenTrialData(trial, id) {
         out.timeInitialFixation = trial.fixationDrawTime[0];
         out.timeInitialFrames = trial.framesDrawTime[0];
         out.timeInitialStimOn = trial.stimulusDrawTime[0];
-        out.timeInitialStimOff = trial.pluginResponse[0].startTime + trial.pluginResponse[0].stimulusOffTime;
-        out.timeInitialResponse = trial.pluginResponse[0].startTime + trial.pluginResponse[0].rt;
+        out.timeInitialStimOff = trial.pluginResponse[0].stimulusOffTime;
+        out.stimPresentTime = trial.pluginResponse[0].stimulusOffTime - trial.stimulusDrawTime[0];
+        out.timeInitialResponse =rial.pluginResponse[0].rt + trial.pluginResponse[0].startTime
         out.initialRT = trial.pluginResponse[0].rt;
-        if (trial.pluginResponse.length === 3) {
-            // advice and final decision
-            // advice
+        if (trial.pluginResponse.length > 1) {
+            // Information choice
             out.timeInfoChoiceStart = trial.pluginResponse[1].startTime;
             out.timeInfoChoiceMade = trial.pluginResponse[1].choiceTime;
-            out.durationinfoChoice = trial.pluginResponse[1].choiceRT;
-            out.timeAdviceDisplayed = trial.pluginResponse[1].displayAdviceTime
-            out.durationAdviceDuration = trial.pluginResponse[1].adviceTime;
-            // final decision
-            out.timeFinalStart = trial.pluginResponse[2].startTime;
+            out.infoChoiceRT = trial.pluginResponse[1].choiceRT;
+            // advice
+            out.timeAdviceDisplayed = trial.pluginResponse[1].displayAdviceTime;
+            out.additionalInfoDuraton = trial.pluginResponse[1].infoDuration;
+            //review stim
             out.timeFinalFixation = trial.fixationDrawTime[1];
             out.timeFinalFrames = trial.framesDrawTime[1];
             out.timeFinalStimOn = trial.stimulusDrawTime[1];
-            out.timeFinalStimOff = trial.pluginResponse[2].startTime + trial.pluginResponse[2].stimulusOffTime;
-            out.timeFinalResponse = trial.pluginResponse[2].startTime + trial.pluginResponse[2].rt;
+            out.timeFinalStimOff = trial.pluginResponse[1].infoOff;
+            // final decision
+            out.timeFinalStart = trial.pluginResponse[2].startTime;
+            out.timeFinalResponse = trial.pluginResponse[2].rt + trial.pluginResponse[2].startTime ;
+            out.finalRT = trial.pluginResponse[2].rt;
+        }
+        else {
+            out.timeInfoChoiceStart = null;
+            out.timeInfoChoiceMade =  null;
+            out.infoChoiceRT =  null;
+            // advice
+            out.timeAdviceDisplayed =  null;
+            out.additionalInfoDuraton =  null;
+            //review stim
+            out.timeFinalFixation =  null;
+            out.timeFinalFrames =  null;
+            out.timeFinalStimOn =  null;
+            out.timeFinalStimOff =  null;
+            // final decision
+            out.timeFinalStart =  null;
+            out.timeFinalResponse =  null;
+            out.finalRT =  null;
         }
     }
 
