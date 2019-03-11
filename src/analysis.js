@@ -563,25 +563,7 @@ class advisorChoice extends dotTask {
             "at your results and see how you did on the task and whether your choices matched our prediction.</p>";
 
         thanksSection.appendChild(thanksDiv);
-        let permalinkDiv = thanksDiv.appendChild(document.createElement('div'));
-        permalinkDiv.className = 'permalink-container';
-        let permalinkLabel = permalinkDiv.appendChild(document.createElement('div'));
-        permalinkLabel.className = 'permalink-label';
-        permalinkLabel.innerText = 'Permanent link:';
-        let permalinkLink = permalinkDiv.appendChild(document.createElement('div'));
-        permalinkLink.className = 'permalink-link';
-        permalinkLink.innerText = 'https://acclab.psy.ox.ac.uk/~mj221/ESM/AdvisorChoice?id=' +
-            g.experimentCode + '_' + g.participantId;
-        let permalinkCopy = permalinkDiv.appendChild(document.createElement('div'));
-        permalinkCopy.className = 'permalink-copy';
-        permalinkCopy.onclick = function(){
-            let linkDiv = document.querySelector('div.permalink-link');
-            let range = document.createRange();
-            range.selectNodeContents(linkDiv);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-        };
+
         // Accuracy
         let accuracySection = body.appendChild(document.createElement('section'));
         let accuracyDiv = document.createElement('div');
@@ -691,7 +673,7 @@ class advisorChoice extends dotTask {
         confidenceDescription.innerHTML = "<p>Your confidence is presented here broken down by whether " +
             "or not your final decision was correct. Most people show a pattern where they are more confident " +
             "when they are correct than when they are mistaken. Additionally, most people are more confident " +
-            "after receiving advice than they were on their initial decision.</p>";
+            "after receiving additional information than they were on their initial decision.</p>";
         confidenceContainer.appendChild(confidenceDescription);
 
         // apply 'feedback' class to all elements for styling purposes
@@ -871,8 +853,8 @@ class advisorChoice extends dotTask {
         container.className = 'feedback confidenceBarContainer';
         let label = container.appendChild(document.createElement('h3'));
         label.id = 'confidenceBarLabel';
-        label.className = 'confidenceLabel preAdvice feedback';
-        label.innerText = 'Before taking advice';
+        label.className = 'confidenceLabel pre info feedback';
+        label.innerText = 'Before additional information';
         let bar = container.appendChild(document.createElement('div'));
         bar.id = 'confidenceBarPre';
         bar.className = 'feedback confidenceBar preAdvice';
@@ -901,27 +883,27 @@ class advisorChoice extends dotTask {
         incorrectPost.style.left = 'calc(-20px + '+(confReport.final.incorrect.final[0]*2).toString()+'%)';
         let labelPost = containerPost.appendChild(document.createElement('h3'));
         labelPost.id = 'confidenceBarLabel';
-        labelPost.className = 'confidenceLabel postAdvice feedback';
-        labelPost.innerText = 'After taking advice';
+        labelPost.className = 'confidenceLabel post Info feedback';
+        labelPost.innerText = 'After additional information';
         // Add popups
         let cpChild = correctPre.appendChild(document.createElement('div'));
         cpChild.className = 'confidencePopup correct preAdvice feedback';
-        cpChild.innerHTML = 'Your average confidence before advice was <strong>'+
+        cpChild.innerHTML = 'Your average confidence before additional information was <strong>'+
             utils.round(confReport.final.correct.initial[0],1,true).toString()+
             '</strong> when you were correct.';
         let ipChild = incorrectPre.appendChild(document.createElement('div'));
         ipChild.className = 'confidencePopup incorrect preAdvice feedback';
-        ipChild.innerHTML = 'Your average confidence before advice was <strong>'+
+        ipChild.innerHTML = 'Your average confidence before additional information was <strong>'+
             utils.round(confReport.final.incorrect.initial[0],1,true).toString()+
             '</strong> when you were incorrect.';
         let ctChild = correctPost.appendChild(document.createElement('div'));
         ctChild.className = 'confidencePopup correct postAdvice feedback';
-        ctChild.innerHTML = 'Your average confidence after advice was <strong>'+
+        ctChild.innerHTML = 'Your average confidence after additional information was <strong>'+
             utils.round(confReport.final.correct.final[0],1,true).toString()+
             '</strong> when you were correct.';
         let itChild = incorrectPost.appendChild(document.createElement('div'));
         itChild.className = 'confidencePopup incorrect postAdvice feedback';
-        itChild.innerHTML = 'Your average confidence after advice was <strong>'+
+        itChild.innerHTML = 'Your average confidence after additional information was <strong>'+
             utils.round(confReport.final.incorrect.final[0],1,true).toString()+
             '</strong> when you were incorrect.';
     }
