@@ -1168,10 +1168,10 @@ class AdvisorChoice extends DotTask {
                 advisorSet = 0;
                 blockStructure = this.practiceBlockStructure[b];
                 advisorChoices = this.practiceAdvisors;
-                if (b = practiceBlockCount -1 ) {
-                    trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([1, 2, 3], (utils.sumList(this.practiceBlockStructure[b])/ 3)));
+                if (b < practiceBlockCount -1 ) {
+                    trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([2], (utils.sumList(this.practiceBlockStructure[b]))))
                 } else {
-                    trialDifficulty = trialDifficulty.concat(utils.shuffleShoe(2, (utils.sumList(this.practiceBlockStructure[b]))))
+                    trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([1, 2, 3], (utils.sumList(this.practiceBlockStructure[b])/ 3)));
                 }
             }
             // get advisor ids
