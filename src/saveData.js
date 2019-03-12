@@ -92,6 +92,7 @@ function flattenTrialData(trial, id) {
     out.correctAnswer = trial.whichSide;
     out.initialAnswer = trial.answer[0];
     out.finalAnswer = trial.answer[1];
+    out.initialAnsCorrect = trial.answer[0] === trial.whichSide;
     out.initialConfidence = trial.confidence[0];
     out.finalConfidence = trial.confidence[1];
     out.advisorId = trial.advisorId;
@@ -140,6 +141,7 @@ function flattenTrialData(trial, id) {
             out.timeFinalStart = trial.pluginResponse[2].startTime;
             out.timeFinalResponse = trial.pluginResponse[2].rt + trial.pluginResponse[2].startTime ;
             out.finalRT = trial.pluginResponse[2].rt;
+            out.finalAnsCorrect = trial.answer[1] === trial.whichSide;
         }
         else {
             out.timeInfoChoiceStart = null;
@@ -157,6 +159,7 @@ function flattenTrialData(trial, id) {
             out.timeFinalStart =  null;
             out.timeFinalResponse =  null;
             out.finalRT =  null;
+            out.finallAnsCorrect = null;
         }
     }
 
