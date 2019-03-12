@@ -1222,7 +1222,7 @@ class AdvisorChoice extends DotTask {
                     advisor1id,
                     choice,
                     advisorAbove: isPractice ? 0: advisorAbove[b-practiceBlockCount],
-                    trialDifficulty: trialDifficulty[id],
+                    trialDifficulty: trialDifficulty[id-1],
                     changes,
                     answer: [NaN, NaN],
                     confidence: [NaN, NaN],
