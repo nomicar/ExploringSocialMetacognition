@@ -121,7 +121,7 @@ function flattenTrialData(trial, id) {
         out.timeInitialStimOn = trial.stimulusDrawTime[0];
         out.timeInitialStimOff = trial.pluginResponse[0].stimulusOffTime;
         out.stimPresentTime = trial.pluginResponse[0].stimulusOffTime - trial.stimulusDrawTime[0];
-        out.timeInitialResponse =rial.pluginResponse[0].rt + trial.pluginResponse[0].startTime
+        out.timeInitialResponse = trial.pluginResponse[0].rt + trial.pluginResponse[0].startTime;
         out.initialRT = trial.pluginResponse[0].rt;
         if (trial.pluginResponse.length > 1) {
             // Information choice
