@@ -952,11 +952,19 @@ class DotTask extends Governor {
      */
     closeTrial(trial) {
         // Staircasing stuff
+        // Updated so that the staircase is only on the medium difficulty trials
         let warning = "";
         if (this.currentTrialIndex > 1) {
             // two-down one-up staircase
-            let lastTrial = this.trials[this.currentTrialIndex - 1];
-            if (!this.currentTrial.getCorrect(false)) {
+            // find last trial with medium difficulty
+            // Create a list of the medium trials
+            let medTrials = utils.getMatches(gov.trials, function(trial) {
+                return trial.trialDifficulty === 2  && !isNaN(trial.answer[0]) ;
+            });
+            let lastTrial = medTrials[medTrials.length -2] //get last medium trial
+            //let lastTrial = this.trials[this.currentTrialIndex - 1];
+            if (!this.currentTrial.getCorrect(false) &&
+                this.currentTrial.trialDifficulty === 2)  {
                 // Wrong! Make it easier
                 this.dotDifference += this.difficultyStep.current;
                 if (this.dotDifference > this.dotCount - 1) {
@@ -971,7 +979,8 @@ class DotTask extends Governor {
                 }
             } else if (lastTrial.getCorrect(false) &&
                 this.currentTrial.getCorrect(false) &&
-                this.currentTrial.dotDifference === lastTrial.dotDifference) {
+                this.currentTrial.dotDifference === lastTrial.dotDifference &&
+                this.currentTrial.trialDifficulty === 2) {
                 // Two hits, impressive! Make it harder
                 this.dotDifference -= this.difficultyStep.current;
                 if (this.dotDifference < 1) {
