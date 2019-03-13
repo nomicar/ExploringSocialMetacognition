@@ -96,6 +96,7 @@ function flattenTrialData(trial, id) {
     out.initialConfidence = trial.confidence[0];
     out.finalConfidence = trial.confidence[1];
     out.advisorId = trial.advisorId;
+    out.advisorAcc = trial.advisorType;
     out.advisorAbove = trial.advisorAbove;
     out.resawStimulus = trial.resawStimulus;
     out.trialDifficulty = trial.trialDifficulty;

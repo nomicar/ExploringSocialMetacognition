@@ -1168,6 +1168,7 @@ class AdvisorChoice extends DotTask {
             let advisorChoices = [];
             let advisorForceDeck = null;
             let advisorChangeDeck = null;
+            let advisorType = null;
             if (b >= practiceBlockCount) { // do for experimental blocks
                 advisorSet = Math.floor((b-practiceBlockCount) / this.blockStructure.length); //adviser set changes only in main blocks, not subblocks
                 blockStructure = this.blockStructure[(b-practiceBlockCount)%this.blockStructure.length];  //get the structure of this subblock
@@ -1183,8 +1184,9 @@ class AdvisorChoice extends DotTask {
                     trialDifficulty = trialDifficulty.concat(utils.shuffleShoe([1, 2, 3], (utils.sumList(this.practiceBlockStructure[b])/ 3)));
                 }
             }
-            // get advisor ids
+            // get advisor ids and types
             advisor0id = advisorChoices[0].id;
+            advisorType = advisorChoices[0].adviceType;
             if(advisorChoices.length > 1) // check if there is more than one advisor
                 advisor1id =  advisorChoices[1].id;
             else
@@ -1230,6 +1232,7 @@ class AdvisorChoice extends DotTask {
                     advisor0id,
                     advisor1id,
                     choice,
+                    advisorType,
                     advisorAbove: isPractice ? 0: advisorAbove[b-practiceBlockCount],
                     trialDifficulty: trialDifficulty[id-1],
                     changes,

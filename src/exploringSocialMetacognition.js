@@ -885,6 +885,7 @@ class Trial {
         this.resawStimulus = typeof args.resawStimulus === 'undefined'? null : args.resawStimulus;
         this.defaultAdvisor = typeof args.defaultAdvisor === 'undefined'? null : args.defaultAdvisor;
         this.choice = typeof args.choice === 'undefined'? null : args.choice;
+        this.advisorType = typeof args.advisorType === 'undefined'? null : args.advisorType;
         this.answer = typeof args.answer  === 'undefined'? null : args.answer ;
         this.confidence = typeof args.confidence === 'undefined'? null : args.confidence;
         this.confidenceCategory = typeof args.confidenceCategory === 'undefined'? null : args.confidenceCategory;
