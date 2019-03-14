@@ -119,7 +119,6 @@ function flattenTrialData(trial, id) {
         // initial decision
         out.timeInitialStart = trial.pluginResponse[0].startTime;
         out.timeInitialFixation = trial.fixationDrawTime[0];
-        out.timeInitialFrames = trial.framesDrawTime[0];
         out.timeInitialStimOn = trial.stimulusDrawTime[0];
         out.timeInitialStimOff = trial.pluginResponse[0].stimulusOffTime;
         out.stimPresentTime = trial.pluginResponse[0].stimulusOffTime - trial.stimulusDrawTime[0];
@@ -134,8 +133,7 @@ function flattenTrialData(trial, id) {
             out.timeAdviceDisplayed = trial.pluginResponse[1].displayAdviceTime;
             out.additionalInfoDuraton = trial.pluginResponse[1].infoDuration;
             //review stim
-            out.timeFinalFixation = trial.fixationDrawTime[1];
-            out.timeFinalFrames = trial.framesDrawTime[1];
+            out.timeFinalFixation = trial.fixationDrawTime[1]
             out.timeFinalStimOn = trial.stimulusDrawTime[1];
             out.timeFinalStimOff = trial.pluginResponse[1].infoOff;
             // final decision

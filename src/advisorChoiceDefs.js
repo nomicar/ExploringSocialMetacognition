@@ -209,11 +209,14 @@ class DotTask extends Governor {
         setTimeout(function () {
             self.currentTrial.fixationDrawTime.push(performance.now()); //draw fixation only
             DotTask.drawFixation(canvasId);
+            self.currentTrial.grid.drawBoundingBoxes(canvasId);
         }, this.preTrialInterval);
         setTimeout(function(){
-            self.currentTrial.framesDrawTime.push(performance.now()); //draw boxes
-            self.currentTrial.grid.drawBoundingBoxes(canvasId);
+            DotTask.drawWhiteFixation(canvasId); //fixation blink
         }, this.preTrialInterval+this.fixationDuration);
+        setTimeout(function(){
+            DotTask.drawFixation(canvasId);
+        }, this.preTrialInterval+this.fixationDuration+100);
         setTimeout(function(){
             self.currentTrial.stimulusDrawTime.push(performance.now()); //draw stimulus
             self.currentTrial.grid.draw(canvasId);
@@ -295,6 +298,28 @@ class DotTask extends Governor {
         ctx.stroke();
         // vertical
         ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.moveTo(ctx.canvas.clientWidth/2, (ctx.canvas.clientHeight/2)-len);
+        ctx.lineTo(ctx.canvas.clientWidth/2, (ctx.canvas.clientHeight/2)+len);
+        ctx.stroke();
+    }
+
+    /**
+     * Draw a white fixation cross on *canvasId*
+     * @param {string} canvasId - id of the canvas on which to draw
+     */
+    static drawWhiteFixation(canvasId) {
+        let ctx = document.querySelector('#'+canvasId).getContext('2d');
+        let len = 5;
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = '2';
+        ctx.beginPath();
+        // horizontal
+        ctx.moveTo((ctx.canvas.clientWidth/2)-len, ctx.canvas.clientHeight/2);
+        ctx.lineTo((ctx.canvas.clientWidth/2)+len, ctx.canvas.clientHeight/2);
+        ctx.stroke();
+        // vertical
+        ctx.strokeStyle = 'white';
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.clientWidth/2, (ctx.canvas.clientHeight/2)-len);
         ctx.lineTo(ctx.canvas.clientWidth/2, (ctx.canvas.clientHeight/2)+len);

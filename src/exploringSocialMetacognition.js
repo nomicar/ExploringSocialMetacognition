@@ -905,7 +905,6 @@ class Trial {
         this.stimulusDrawTime = typeof args.stimulusDrawTime === 'undefined'? null : args.stimulusDrawTime;
         this.stimulusOffTime = typeof args.stimulusOffTime === 'undefined'? null : args.stimulusOffTime;
         this.fixationDrawTime = typeof args.fixationDrawTime === 'undefined'? null : args.fixationDrawTime;
-        this.framesDrawTime = typeof args.framesDrawTime === 'undefined'? null : args.framesDrawTime;
         this.pluginResponse = typeof args.pluginResponse === 'undefined'? [] : args.pluginResponse;
         this.stimulusParent = typeof args.stimulusParent === 'undefined'? null : args.stimulusParent;
         this.repeatRejection = typeof args.repeatRejection === 'undefined'? null : args.repeatRejection;
