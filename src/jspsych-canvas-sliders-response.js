@@ -442,6 +442,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
             stimulus_properties: null
         };
 
+        response.startTime = performance.now();
         // Execute the supplied drawing function
         response.stimulus_properties = trial.stimulus(trial.canvasId);
 
@@ -564,6 +565,7 @@ jsPsych.plugins['canvas-sliders-response'] = (function() {
             let trialdata = {
                 "startTime": response.startTime,
                 "rt": response.rt,
+                "timeResponse": response.timeResponse,
                 "response": response.response,
                 "stimulus_properties": response.stimulus_properties
             };
